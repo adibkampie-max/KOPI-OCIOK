@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin KOPI OCIOK</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#0b0b0b;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    background:#151515;
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #292929;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:bold;
+    color:#ff8a00;
+}
+
+.logo span{
+    display:block;
+    font-size:11px;
+    color:#aaa;
+    margin-top:3px;
+}
+
+.logout{
+    border:0;
+    background:#e53935;
+    color:white;
+    padding:9px 13px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
+}
+
+.welcome{
+    background:linear-gradient(135deg,#20160b,#151515);
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:18px;
+}
+
+.welcome h1{
+    font-size:24px;
+    margin-bottom:6px;
+}
+
+.welcome p{
+    color:#aaa;
+    font-size:14px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:#151515;
+    border:1px solid #292929;
+    border-radius:14px;
+    padding:17px;
+}
+
+.stat .icon{
+    font-size:25px;
+}
+
+.stat h3{
+    margin-top:8px;
+    color:#aaa;
+    font-size:13px;
+}
+
+.stat strong{
+    display:block;
+    font-size:23px;
+    margin-top:5px;
+    color:#ff9d2e;
+}
+
+.section{
+    background:#151515;
+    border:1px solid #292929;
+    border-radius:15px;
+    padding:18px;
+    margin-bottom:20px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.section-title h2{
+    font-size:18px;
+}
+
+.add-btn{
+    background:#ff8a00;
+    color:#111;
+    border:0;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th,td{
+    padding:12px 9px;
+    border-bottom:1px solid #292929;
+    text-align:left;
+    font-size:13px;
+}
+
+th{
+    color:#ff9d2e;
+}
+
+input,select{
+    width:100%;
+    background:#0d0d0d;
+    color:#fff;
+    border:1px solid #333;
+    padding:9px;
+    border-radius:7px;
+    outline:none;
+}
+
+input:focus,select:focus{
+    border-color:#ff8a00;
+}
+
+.action{
+    display:flex;
+    gap:6px;
+}
+
+.edit-btn{
+    background:#1565c0;
+    color:white;
+    border:0;
+    padding:8px 10px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.delete-btn{
+    background:#c62828;
+    color:white;
+    border:0;
+    padding:8px 10px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.save-btn{
+    background:#2e7d32;
+    color:white;
+    border:0;
+    padding:8px 10px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.cancel-btn{
+    background:#555;
+    color:white;
+    border:0;
+    padding:8px 10px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:20px;
+    background:#222;
+    color:#aaa;
+    font-size:11px;
+}
+
+.badge.good{
+    background:#123d20;
+    color:#55d879;
+}
+
+.badge.empty{
+    background:#431515;
+    color:#ff6868;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:480px;
+    background:#181818;
+    border:1px solid #333;
+    border-radius:16px;
+    padding:20px;
+}
+
+.modal-box h2{
+    margin-bottom:16px;
+}
+
+.form-group{
+    margin-bottom:13px;
+}
+
+.form-group label{
+    display:block;
+    font-size:13px;
+    color:#aaa;
+    margin-bottom:6px;
+}
+
+.modal-buttons{
+    display:flex;
+    gap:8px;
+    margin-top:18px;
+}
+
+.modal-buttons button{
+    flex:1;
+}
+
+.loading{
+    text-align:center;
+    padding:30px;
+    color:#aaa;
+}
+
+.error{
+    background:#3a1212;
+    color:#ff7777;
+    padding:14px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%);
+    background:#222;
+    color:#fff;
+    padding:12px 18px;
+    border-radius:10px;
+    display:none;
+    z-index:200;
+    border:1px solid #444;
+}
+
+.toast.show{
+    display:block;
+}
+
+@media(max-width:650px){
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .container{
+        padding:12px;
+    }
+
+    .welcome h1{
+        font-size:21px;
+    }
+
+    .section{
+        padding:13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        ☕ KOPI OCIOK
+        <span>ADMIN DASHBOARD</span>
+    </div>
+
+    <button class="logout" onclick="logout()">
+        Keluar
+    </button>
+</header>
+
+<main class="container">
+
+    <div class="welcome">
+        <h1>Dashboard Admin ☕</h1>
+        <p id="adminEmail">Memeriksa akun...</p>
+    </div>
+
+    <div id="errorBox"></div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="icon">📦</div>
+            <h3>Total Produk</h3>
+            <strong id="totalProducts">0</strong>
+        </div>
+
+        <div class="stat">
+            <div class="icon">📊</div>
+            <h3>Total Stok</h3>
+            <strong id="totalStock">0</strong>
+        </div>
+
+        <div class="stat">
+            <div class="icon">⚠️</div>
+            <h3>Stok Menipis</h3>
+            <strong id="lowStock">0</strong>
+        </div>
+
+    </div>
+
+    <section class="section">
+
+        <div class="section-title">
+            <h2>☕ Produk KOPI OCIOK</h2>
+
+            <button class="add-btn" onclick="openAddModal()">
+                + Tambah
+            </button>
+        </div>
+
+        <div id="productLoading" class="loading">
+            Memuat produk...
+        </div>
+
+        <div class="table-wrap">
+            <table id="productTable" style="display:none;">
+
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Kategori</th>
+                        <th>Harga</th>
+                        <th>Stok</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody id="productList"></tbody>
+
+            </table>
+        </div>
+
+    </section>
+
+</main>
+
+<!-- MODAL TAMBAH PRODUK -->
+
+<div class="modal" id="addModal">
+
+    <div class="modal-box">
+
+        <h2>Tambah Produk</h2>
+
+        <div class="form-group">
+            <label>Nama Produk</label>
+            <input id="addName" placeholder="Contoh: Kopi Susu">
+        </div>
+
+        <div class="form-group">
+            <label>Deskripsi</label>
+            <input id="addDescription" placeholder="Deskripsi produk">
+        </div>
+
+        <div class="form-group">
+            <label>Harga</label>
+            <input id="addPrice" type="number" placeholder="8000">
+        </div>
+
+        <div class="form-group">
+            <label>Kategori</label>
+
+            <select id="addCategory">
+                <option value="Kopi">Kopi</option>
+                <option value="Minuman">Minuman</option>
+                <option value="Makanan">Makanan</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Stok</label>
+            <input id="addStock" type="number" placeholder="30">
+        </div>
+
+        <div class="modal-buttons">
+
+            <button class="cancel-btn" onclick="closeAddModal()">
+                Batal
+            </button>
+
+            <button class="add-btn" onclick="addProduct()">
+                Simpan
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+"https://qxzfqbfoyhbawnvlmxkk.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable__PAtJKAfQbQE5g1tAr7qlg_xQZOwb_r";
+
+const supabaseClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================
+   CEK LOGIN ADMIN
+========================= */
+
+async function checkAdmin(){
+
+    const {
+        data:{
+            user
+        }
+    } = await supabaseClient.auth.getUser();
+
+    if(!user){
+
+        window.location.href =
+        "index.html";
+
+        return;
+    }
+
+    document.getElementById("adminEmail")
+        .textContent =
+        "Login sebagai: " + user.email;
+
+
+    const {
+        data:admin,
+        error
+    } =
+    await supabaseClient
+        .from("admins")
+        .select("id,email")
+        .eq("id",user.id)
+        .maybeSingle();
+
+
+    if(error){
+
+        showError(
+            "Gagal memeriksa admin: "
+            + error.message
+        );
+
+        return;
+    }
+
+
+    if(!admin){
+
+        alert(
+            "Akun ini bukan admin."
+        );
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href =
+        "index.html";
+
+        return;
+    }
+
+
+    loadProducts();
+}
+
+
+/* =========================
+   LOAD PRODUCTS
+========================= */
+
+async function loadProducts(){
+
+    const loading =
+    document.getElementById(
+        "productLoading"
+    );
+
+    const table =
+    document.getElementById(
+        "productTable"
+    );
+
+    loading.style.display =
+    "block";
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .select(
+            "id,name,description,price,category,stock"
+        )
+        .order(
+            "id",
+            {
+                ascending:true
+            }
+        );
+
+
+    if(error){
+
+        loading.style.display =
+        "none";
+
+        showError(
+            "Gagal memuat produk: "
+            + error.message
+        );
+
+        return;
+    }
+
+
+    loading.style.display =
+    "none";
+
+    table.style.display =
+    "table";
+
+
+    renderProducts(data);
+}
+
+
+/* =========================
+   RENDER PRODUCTS
+========================= */
+
+function renderProducts(products){
+
+    const list =
+    document.getElementById(
+        "productList"
+    );
+
+    list.innerHTML = "";
+
+
+    let totalStock = 0;
+    let lowStock = 0;
+
+
+    products.forEach(product => {
+
+        totalStock +=
+        Number(product.stock || 0);
+
+
+        if(Number(product.stock || 0) <= 10){
+            lowStock++;
+        }
+
+
+        const row =
+        document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                <strong>
+                    ${escapeHTML(product.name)}
+                </strong>
+            </td>
+
+            <td>
+                <span class="badge">
+                    ${escapeHTML(product.category)}
+                </span>
+            </td>
+
+            <td>
+                Rp ${Number(product.price || 0)
+                    .toLocaleString("id-ID")}
+            </td>
+
+            <td>
+                ${product.stock}
+            </td>
+
+            <td>
+
+                ${
+                    Number(product.stock || 0) > 0
+
+                    ?
+
+                    `<span class="badge good">
+                        Tersedia
+                    </span>`
+
+                    :
+
+                    `<span class="badge empty">
+                        Habis
+                    </span>`
+                }
+
+            </td>
+
+            <td>
+
+                <div class="action">
+
+                    <button
+                        class="edit-btn"
+                        onclick="editProduct(
+                            ${product.id},
+                            '${escapeJS(product.name)}',
+                            '${escapeJS(product.description || "")}',
+                            ${product.price},
+                            '${escapeJS(product.category)}',
+                            ${product.stock}
+                        )">
+
+                        Edit
+
+                    </button>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteProduct(${product.id})">
+
+                        Hapus
+
+                    </button>
+
+                </div>
+
+            </td>
+
+        `;
+
+
+        list.appendChild(row);
+
+    });
+
+
+    document.getElementById(
+        "totalProducts"
+    ).textContent =
+    products.length;
+
+
+    document.getElementById(
+        "totalStock"
+    ).textContent =
+    totalStock;
+
+
+    document.getElementById(
+        "lowStock"
+    ).textContent =
+    lowStock;
+}
+
+
+/* =========================
+   TAMBAH PRODUK
+========================= */
+
+function openAddModal(){
+
+    document.getElementById(
+        "addModal"
+    ).classList.add("active");
+
+}
+
+
+function closeAddModal(){
+
+    document.getElementById(
+        "addModal"
+    ).classList.remove("active");
+
+}
+
+
+async function addProduct(){
+
+    const name =
+    document.getElementById(
+        "addName"
+    ).value.trim();
+
+
+    const description =
+    document.getElementById(
+        "addDescription"
+    ).value.trim();
+
+
+    const price =
+    Number(
+        document.getElementById(
+            "addPrice"
+        ).value
+    );
+
+
+    const category =
+    document.getElementById(
+        "addCategory"
+    ).value;
+
+
+    const stock =
+    Number(
+        document.getElementById(
+            "addStock"
+        ).value
+    );
+
+
+    if(!name || !price){
+
+        showToast(
+            "Nama dan harga wajib diisi."
+        );
+
+        return;
+    }
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .insert({
+
+            name:name,
+
+            description:
+            description,
+
+            price:price,
+
+            category:
+            category,
+
+            stock:
+            stock
+
+        });
+
+
+    if(error){
+
+        showToast(
+            "Gagal: "
+            + error.message
+        );
+
+        return;
+    }
+
+
+    closeAddModal();
+
+
+    document.getElementById(
+        "addName"
+    ).value = "";
+
+
+    document.getElementById(
+        "addDescription"
+    ).value = "";
+
+
+    document.getElementById(
+        "addPrice"
+    ).value = "";
+
+
+    document.getElementById(
+        "addStock"
+    ).value = "";
+
+
+    showToast(
+        "Produk berhasil ditambahkan."
+    );
+
+
+    loadProducts();
+}
+
+
+/* =========================
+   EDIT PRODUK
+========================= */
+
+async function editProduct(
+    id,
+    oldName,
+    oldDescription,
+    oldPrice,
+    oldCategory,
+    oldStock
+){
+
+    const name =
+    prompt(
+        "Nama produk:",
+        oldName
+    );
+
+
+    if(name === null)
+        return;
+
+
+    const price =
+    prompt(
+        "Harga:",
+        oldPrice
+    );
+
+
+    if(price === null)
+        return;
+
+
+    const stock =
+    prompt(
+        "Stok:",
+        oldStock
+    );
+
+
+    if(stock === null)
+        return;
+
+
+    const description =
+    prompt(
+        "Deskripsi:",
+        oldDescription
+    );
+
+
+    if(description === null)
+        return;
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .update({
+
+            name:name,
+
+            price:Number(price),
+
+            stock:Number(stock),
+
+            description:
+            description
+
+        })
+        .eq(
+            "id",
+            id
+        );
+
+
+    if(error){
+
+        showToast(
+            "Gagal mengubah produk: "
+            + error.message
+        );
+
+        return;
+    }
+
+
+    showToast(
+        "Produk berhasil diperbarui."
+    );
+
+
+    loadProducts();
+}
+
+
+/* =========================
+   HAPUS PRODUK
+========================= */
+
+async function deleteProduct(id){
+
+    const yakin =
+    confirm(
+        "Yakin ingin menghapus produk ini?"
+    );
+
+
+    if(!yakin)
+        return;
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .delete()
+        .eq(
+            "id",
+            id
+        );
+
+
+    if(error){
+
+        showToast(
+            "Gagal menghapus: "
+            + error.message
+        );
+
+        return;
+    }
+
+
+    showToast(
+        "Produk berhasil dihapus."
+    );
+
+
+    loadProducts();
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+    "index.html";
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(message){
+
+    document.getElementById(
+        "errorBox"
+    ).innerHTML = `
+        <div class="error">
+            ${escapeHTML(message)}
+        </div>
+    `;
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message){
+
+    const toast =
+    document.getElementById(
+        "toast"
+    );
+
+
+    toast.textContent =
+    message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(() => {
+
+        toast.classList.remove(
+            "show"
+        );
+
+    },3000);
+}
+
+
+/* =========================
+   SECURITY HELPERS
+========================= */
+
+function escapeHTML(text){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+function escapeJS(text){
+
+    return String(text)
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/\n/g,"\\n")
+        .replace(/\r/g,"\\r");
+}
+
+
+/* =========================
+   START
+========================= */
+
+checkAdmin();
+
+</script>
+
+</body>
+</html>
