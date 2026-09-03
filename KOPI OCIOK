@@ -1,0 +1,2597 @@
+<!DOCTYPE html>
+<html lang="id">
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
+
+<title>KOPI OCIOK</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    width:100%;
+    min-height:100vh;
+    background:#0b0b0d;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    overflow-x:hidden;
+    padding-bottom:78px;
+}
+
+/* =========================
+   WARNA
+========================= */
+
+:root{
+    --bg:#0b0b0d;
+    --card:#17171b;
+    --card2:#202025;
+    --orange:#ff6b00;
+    --orange2:#ff8c32;
+    --text:#fff;
+    --muted:#999;
+    --line:#29292f;
+}
+
+/* =========================
+   PROMO BERJALAN
+========================= */
+
+.running{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:34px;
+    z-index:5000;
+    background:linear-gradient(
+        90deg,
+        #ff4b00,
+        #ff7600,
+        #ff4b00
+    );
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+}
+
+.running-text{
+    white-space:nowrap;
+    font-size:12px;
+    font-weight:bold;
+    animation:jalan 18s linear infinite;
+}
+
+@keyframes jalan{
+    from{
+        transform:translateX(100%);
+    }
+    to{
+        transform:translateX(-100%);
+    }
+}
+
+/* =========================
+   HEADER MOBILE
+========================= */
+
+header{
+    position:fixed;
+    top:34px;
+    left:0;
+    width:100%;
+    height:62px;
+    z-index:4000;
+    background:rgba(11,11,13,.96);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+}
+
+.header{
+    height:100%;
+    padding:0 13px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo{
+    min-width:max-content;
+    font-size:17px;
+    font-weight:900;
+}
+
+.logo span{
+    color:var(--orange);
+}
+
+.search{
+    flex:1;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    height:39px;
+    background:#202025;
+    border:1px solid #303038;
+    border-radius:20px;
+    outline:none;
+    color:white;
+    padding:0 13px 0 37px;
+    font-size:12px;
+}
+
+.search-icon{
+    position:absolute;
+    left:13px;
+    top:11px;
+    font-size:14px;
+}
+
+.cart-head{
+    width:39px;
+    height:39px;
+    border:0;
+    border-radius:50%;
+    background:#202025;
+    color:white;
+    position:relative;
+    font-size:18px;
+}
+
+.cart-count{
+    position:absolute;
+    top:-4px;
+    right:-3px;
+    background:#ff3131;
+    width:17px;
+    height:17px;
+    border-radius:50%;
+    font-size:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* =========================
+   HALAMAN
+========================= */
+
+.page{
+    display:none;
+    padding-top:108px;
+    min-height:100vh;
+    animation:page .3s ease;
+}
+
+.page.active{
+    display:block;
+}
+
+@keyframes page{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.container{
+    width:100%;
+    padding:14px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    height:310px;
+    border-radius:18px;
+    overflow:hidden;
+    position:relative;
+
+    background:
+    linear-gradient(
+        90deg,
+        rgba(0,0,0,.92),
+        rgba(0,0,0,.45)
+    ),
+    url(
+    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+    )
+    center/cover;
+}
+
+.hero-content{
+    position:absolute;
+    left:20px;
+    right:20px;
+    top:40px;
+}
+
+.hero-small{
+    color:var(--orange2);
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.hero h1{
+    font-size:38px;
+    line-height:1.05;
+    margin-bottom:14px;
+}
+
+.hero h1 span{
+    color:var(--orange);
+}
+
+.hero p{
+    color:#ccc;
+    font-size:12px;
+    line-height:1.6;
+    max-width:280px;
+}
+
+.hero-btn{
+    margin-top:18px;
+    background:var(--orange);
+    color:white;
+    border:0;
+    border-radius:10px;
+    padding:13px 18px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.hero-btn:active{
+    transform:scale(.95);
+}
+
+.floating-coffee{
+    position:absolute;
+    right:20px;
+    bottom:25px;
+    font-size:65px;
+    animation:float 2.7s infinite ease-in-out;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0) rotate(-4deg);
+    }
+    50%{
+        transform:translateY(-15px) rotate(5deg);
+    }
+}
+
+/* =========================
+   JUDUL
+========================= */
+
+.title{
+    margin:25px 0 13px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.title h2{
+    font-size:19px;
+}
+
+.title span{
+    color:var(--orange);
+    font-size:11px;
+}
+
+/* =========================
+   KATEGORI
+========================= */
+
+.categories{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:8px;
+}
+
+.category{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 4px;
+    text-align:center;
+    transition:.2s;
+}
+
+.category:active{
+    transform:scale(.94);
+}
+
+.category-icon{
+    width:43px;
+    height:43px;
+    margin:auto;
+    border-radius:50%;
+    background:#27272c;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    margin-bottom:7px;
+}
+
+.category h3{
+    font-size:9px;
+}
+
+.category p{
+    font-size:8px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+/* =========================
+   PRODUK
+========================= */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.product{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:13px;
+    overflow:hidden;
+    animation:produk .5s ease;
+}
+
+@keyframes produk{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.product-img{
+    width:100%;
+    height:155px;
+    position:relative;
+    overflow:hidden;
+}
+
+.product-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.4s;
+}
+
+.product:active
+.product-img img{
+    transform:scale(1.05);
+}
+
+.badge{
+    position:absolute;
+    top:8px;
+    left:8px;
+    background:var(--orange);
+    border-radius:5px;
+    padding:5px 7px;
+    font-size:8px;
+    font-weight:bold;
+}
+
+.favorite{
+    position:absolute;
+    top:8px;
+    right:8px;
+    width:29px;
+    height:29px;
+    border:0;
+    border-radius:50%;
+    background:rgba(0,0,0,.65);
+    color:white;
+    font-size:16px;
+}
+
+.product-info{
+    padding:10px;
+}
+
+.product-category{
+    color:var(--orange2);
+    font-size:8px;
+    margin-bottom:4px;
+}
+
+.product-name{
+    font-size:13px;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.product-desc{
+    color:var(--muted);
+    font-size:9px;
+    line-height:1.4;
+    margin-top:5px;
+    height:25px;
+    overflow:hidden;
+}
+
+.product-bottom{
+    margin-top:9px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.price{
+    color:var(--orange2);
+    font-size:12px;
+    font-weight:900;
+}
+
+.add{
+    width:32px;
+    height:32px;
+    border:0;
+    border-radius:8px;
+    background:var(--orange);
+    color:white;
+    font-size:20px;
+    line-height:30px;
+}
+
+.add:active{
+    transform:scale(.88);
+}
+
+/* =========================
+   SEARCH MENU
+========================= */
+
+.menu-tools{
+    display:flex;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.menu-search{
+    flex:1;
+}
+
+.menu-search input,
+.menu-select{
+    width:100%;
+    height:42px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:9px;
+    color:white;
+    outline:none;
+    padding:0 11px;
+    font-size:11px;
+}
+
+.menu-select{
+    width:125px;
+}
+
+/* =========================
+   PROMO
+========================= */
+
+.promo{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.promo-card{
+    min-height:165px;
+    border-radius:15px;
+    padding:22px;
+    position:relative;
+    overflow:hidden;
+    background:
+        linear-gradient(
+            120deg,
+            #27160d,
+            #17171b
+        );
+    border:1px solid #3b2516;
+}
+
+.promo-card h2{
+    color:var(--orange2);
+    font-size:20px;
+}
+
+.promo-card p{
+    color:#aaa;
+    font-size:11px;
+    line-height:1.6;
+    max-width:230px;
+    margin-top:8px;
+}
+
+.promo-code{
+    display:inline-block;
+    margin-top:15px;
+    padding:8px 12px;
+    border:1px dashed var(--orange);
+    border-radius:6px;
+    color:#ffc15a;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.promo-emoji{
+    position:absolute;
+    right:15px;
+    bottom:5px;
+    font-size:70px;
+    animation:float 3s infinite ease-in-out;
+}
+
+/* =========================
+   KERANJANG
+========================= */
+
+.cart-box{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:12px;
+}
+
+.cart-item{
+    display:flex;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+}
+
+.cart-item:last-child{
+    border-bottom:0;
+}
+
+.cart-img{
+    width:72px;
+    height:72px;
+    object-fit:cover;
+    border-radius:9px;
+}
+
+.cart-info{
+    flex:1;
+}
+
+.cart-info h3{
+    font-size:13px;
+}
+
+.cart-price{
+    color:var(--orange2);
+    font-size:11px;
+    margin-top:5px;
+}
+
+.qty{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin-top:8px;
+}
+
+.qty button{
+    width:26px;
+    height:26px;
+    border:0;
+    background:#303036;
+    color:white;
+    border-radius:6px;
+}
+
+.qty button:active{
+    background:var(--orange);
+}
+
+.remove{
+    border:0;
+    background:none;
+    color:#ff5555;
+    font-size:9px;
+    margin-left:5px;
+}
+
+.summary{
+    margin-top:12px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:17px;
+}
+
+.summary h2{
+    font-size:17px;
+    margin-bottom:17px;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+    color:#aaa;
+    font-size:12px;
+}
+
+.summary-total{
+    border-top:1px solid var(--line);
+    padding-top:14px;
+    display:flex;
+    justify-content:space-between;
+    font-size:17px;
+    font-weight:bold;
+}
+
+.summary-total span:last-child{
+    color:var(--orange2);
+}
+
+.checkout{
+    width:100%;
+    margin-top:15px;
+    height:48px;
+    border:0;
+    border-radius:10px;
+    background:var(--orange);
+    color:white;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.checkout:active{
+    transform:scale(.97);
+}
+
+/* =========================
+   AKUN
+========================= */
+
+.account{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:15px;
+    padding:25px 15px;
+    text-align:center;
+}
+
+.avatar{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    background:linear-gradient(
+        135deg,
+        #ff6b00,
+        #ffb347
+    );
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+    margin:auto auto 12px;
+}
+
+.account h2{
+    font-size:19px;
+}
+
+.account p{
+    color:#888;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.account-menu{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:20px;
+}
+
+.account-menu div{
+    text-align:left;
+    background:#222227;
+    padding:15px;
+    border-radius:9px;
+    font-size:12px;
+}
+
+.account-menu div:active{
+    background:#2b2b30;
+}
+
+/* =========================
+   KOSONG
+========================= */
+
+.empty{
+    text-align:center;
+    padding:60px 15px;
+    color:#888;
+}
+
+.empty-icon{
+    font-size:55px;
+    margin-bottom:12px;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+.bottom{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:70px;
+    z-index:4000;
+    background:rgba(20,20,23,.97);
+    backdrop-filter:blur(15px);
+    border-top:1px solid var(--line);
+}
+
+.bottom-menu{
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+}
+
+.nav-btn{
+    border:0;
+    background:none;
+    color:#777;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    font-size:9px;
+}
+
+.nav-btn span{
+    font-size:21px;
+}
+
+.nav-btn.active{
+    color:var(--orange);
+}
+
+.nav-btn:active{
+    transform:scale(.9);
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    bottom:88px;
+    left:50%;
+    transform:translate(-50%,20px);
+    background:#29292e;
+    padding:11px 17px;
+    border-radius:9px;
+    font-size:11px;
+    opacity:0;
+    pointer-events:none;
+    z-index:8000;
+    transition:.3s;
+    white-space:nowrap;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loader{
+    position:fixed;
+    inset:0;
+    background:#0b0b0d;
+    z-index:9999;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.loader-logo{
+    font-size:25px;
+    font-weight:900;
+}
+
+.loader-logo span{
+    color:var(--orange);
+}
+
+.loader-coffee{
+    font-size:55px;
+    margin:15px;
+    animation:float 1.3s infinite ease-in-out;
+}
+
+.loader-line{
+    width:160px;
+    height:4px;
+    background:#242428;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.loader-progress{
+    height:100%;
+    width:0;
+    background:var(--orange);
+    animation:load 1.5s forwards;
+}
+
+@keyframes load{
+    to{
+        width:100%;
+    }
+}
+
+/* =========================
+   KHUSUS HP
+========================= */
+
+@media(min-width:700px){
+
+    body{
+        width:390px;
+        min-height:100vh;
+        margin:auto;
+        box-shadow:
+            0 0 50px rgba(0,0,0,.7);
+    }
+
+    header,
+    .running,
+    .bottom{
+        width:390px;
+        left:50%;
+        transform:translateX(-50%);
+    }
+
+    .toast{
+        left:50%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- PROMO BERJALAN -->
+
+<div class="running">
+    <div class="running-text">
+        🔥 KOPI OCIOK • KOPI GULA AREN Rp12.000 •
+        ☕ NGOPI YUK • 🍜 MAKANAN ENAK •
+        🚀 PESAN SEKARANG • 🔥 KOPI OCIOK •
+    </div>
+</div>
+
+
+<!-- HEADER -->
+
+<header>
+
+<div class="header">
+
+    <div
+        class="logo"
+        onclick="go('home')">
+
+        ☕ KOPI
+        <span>OCIOK</span>
+
+    </div>
+
+    <div class="search">
+
+        <span class="search-icon">
+            🔍
+        </span>
+
+        <input
+            type="text"
+            placeholder="Cari menu..."
+            oninput="searchGlobal(this.value)">
+
+    </div>
+
+    <button
+        class="cart-head"
+        onclick="go('cart')">
+
+        🛒
+
+        <span
+            class="cart-count"
+            id="cartCount">
+            0
+        </span>
+
+    </button>
+
+</div>
+
+</header>
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section
+    id="page-home"
+    class="page active">
+
+<div class="container">
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-small">
+                ☕ KEDAI KOPI & MAKANAN
+            </div>
+
+            <h1>
+                Ngopi enak,
+                <br>
+                <span>momen mantap.</span>
+            </h1>
+
+            <p>
+                Nikmati kopi, minuman dan makanan
+                favoritmu hanya di KOPI OCIOK.
+            </p>
+
+            <button
+                class="hero-btn"
+                onclick="go('menu')">
+
+                🛍️ Lihat Menu
+
+            </button>
+
+        </div>
+
+        <div class="floating-coffee">
+            ☕
+        </div>
+
+    </div>
+
+
+    <div class="title">
+
+        <h2>
+            Kategori
+        </h2>
+
+        <span
+            onclick="go('menu')">
+            Lihat semua →
+        </span>
+
+    </div>
+
+
+    <div class="categories">
+
+        <div
+            class="category"
+            onclick="category('cold')">
+
+            <div class="category-icon">
+                🧊
+            </div>
+
+            <h3>
+                Dingin
+            </h3>
+
+            <p>
+                8 menu
+            </p>
+
+        </div>
+
+
+        <div
+            class="category"
+            onclick="category('hot')">
+
+            <div class="category-icon">
+                🔥
+            </div>
+
+            <h3>
+                Panas
+            </h3>
+
+            <p>
+                7 menu
+            </p>
+
+        </div>
+
+
+        <div
+            class="category"
+            onclick="category('drink')">
+
+            <div class="category-icon">
+                🥤
+            </div>
+
+            <h3>
+                Minuman
+            </h3>
+
+            <p>
+                13 menu
+            </p>
+
+        </div>
+
+
+        <div
+            class="category"
+            onclick="category('food')">
+
+            <div class="category-icon">
+                🍜
+            </div>
+
+            <h3>
+                Makanan
+            </h3>
+
+            <p>
+                11 menu
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="title">
+
+        <h2>
+            🔥 Favorit
+        </h2>
+
+        <span onclick="go('menu')">
+            Semua →
+        </span>
+
+    </div>
+
+
+    <div
+        class="products"
+        id="homeProducts">
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     MENU
+========================= -->
+
+<section
+    id="page-menu"
+    class="page">
+
+<div class="container">
+
+    <div class="title">
+
+        <h2>
+            🛍️ Semua Menu
+        </h2>
+
+    </div>
+
+
+    <div class="menu-tools">
+
+        <div class="menu-search">
+
+            <input
+                id="menuSearch"
+                type="text"
+                placeholder="🔍 Cari makanan..."
+                oninput="renderMenu()">
+
+        </div>
+
+        <select
+            class="menu-select"
+            id="menuCategory"
+            onchange="renderMenu()">
+
+            <option value="all">
+                Semua
+            </option>
+
+            <option value="cold">
+                🧊 Dingin
+            </option>
+
+            <option value="hot">
+                🔥 Panas
+            </option>
+
+            <option value="drink">
+                🥤 Minuman
+            </option>
+
+            <option value="food">
+                🍜 Makanan
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div
+        class="products"
+        id="menuProducts">
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     PROMO
+========================= -->
+
+<section
+    id="page-promo"
+    class="page">
+
+<div class="container">
+
+    <div class="title">
+
+        <h2>
+            🎟️ Promo
+        </h2>
+
+    </div>
+
+
+    <div class="promo">
+
+        <div class="promo-card">
+
+            <h2>
+                NGOPI YUK!
+            </h2>
+
+            <p>
+                Nikmati kopi favoritmu
+                dengan harga bersahabat.
+            </p>
+
+            <div class="promo-code">
+                KOPIOCIOK
+            </div>
+
+            <div class="promo-emoji">
+                ☕
+            </div>
+
+        </div>
+
+
+        <div class="promo-card">
+
+            <h2>
+                MAKAN HEMAT
+            </h2>
+
+            <p>
+                Temani kopimu dengan
+                makanan favorit.
+            </p>
+
+            <div class="promo-code">
+                OCIOKHEMAT
+            </div>
+
+            <div class="promo-emoji">
+                🍜
+            </div>
+
+        </div>
+
+
+        <div class="promo-card">
+
+            <h2>
+                PECINTA KOPI
+            </h2>
+
+            <p>
+                Kopi panas atau dingin,
+                pilih sesuai seleramu.
+            </p>
+
+            <div class="promo-code">
+                NGOPIYUK
+            </div>
+
+            <div class="promo-emoji">
+                🫘
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CART
+========================= -->
+
+<section
+    id="page-cart"
+    class="page">
+
+<div class="container">
+
+    <div class="title">
+
+        <h2>
+            🛒 Keranjang
+        </h2>
+
+    </div>
+
+
+    <div
+        class="cart-box"
+        id="cartItems">
+    </div>
+
+
+    <div class="summary">
+
+        <h2>
+            Ringkasan Belanja
+        </h2>
+
+        <div class="summary-row">
+
+            <span>
+                Jumlah
+            </span>
+
+            <span id="summaryQty">
+                0
+            </span>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Subtotal
+            </span>
+
+            <span id="summarySubtotal">
+                Rp0
+            </span>
+
+        </div>
+
+
+        <div class="summary-total">
+
+            <span>
+                Total
+            </span>
+
+            <span id="summaryTotal">
+                Rp0
+            </span>
+
+        </div>
+
+
+        <button
+            class="checkout"
+            onclick="checkout()">
+
+            💬 Pesan via WhatsApp
+
+        </button>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     AKUN
+========================= -->
+
+<section
+    id="page-account"
+    class="page">
+
+<div class="container">
+
+    <div class="account">
+
+        <div class="avatar">
+            ☕
+        </div>
+
+        <h2>
+            KOPI OCIOK
+        </h2>
+
+        <p>
+            Selamat datang di KOPI OCIOK
+        </p>
+
+
+        <div class="account-menu">
+
+            <div>
+                📦 &nbsp;
+                <strong>
+                    Pesanan Saya
+                </strong>
+            </div>
+
+            <div>
+                ❤️ &nbsp;
+                <strong>
+                    Menu Favorit
+                </strong>
+            </div>
+
+            <div>
+                📍 &nbsp;
+                <strong>
+                    Alamat
+                </strong>
+            </div>
+
+            <div>
+                🎟️ &nbsp;
+                <strong>
+                    Voucher Saya
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     BOTTOM NAV
+========================= -->
+
+<nav class="bottom">
+
+<div class="bottom-menu">
+
+    <button
+        class="nav-btn active"
+        data-page="home"
+        onclick="go('home')">
+
+        <span>🏠</span>
+        Home
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        data-page="menu"
+        onclick="go('menu')">
+
+        <span>🛍️</span>
+        Menu
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        data-page="promo"
+        onclick="go('promo')">
+
+        <span>🎟️</span>
+        Promo
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        data-page="cart"
+        onclick="go('cart')">
+
+        <span>🛒</span>
+        Keranjang
+
+    </button>
+
+
+    <button
+        class="nav-btn"
+        data-page="account"
+        onclick="go('account')">
+
+        <span>👤</span>
+        Akun
+
+    </button>
+
+</div>
+
+</nav>
+
+
+<div
+    class="toast"
+    id="toast">
+</div>
+
+
+<script>
+
+/* =========================
+   DATA MENU
+========================= */
+
+const products = [
+
+{
+id:1,
+name:"Kopi Gula Aren",
+category:"cold",
+price:12000,
+image:"https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi gula aren manis dan creamy",
+badge:"FAVORIT"
+},
+
+{
+id:2,
+name:"Kopi Susu Aren",
+category:"cold",
+price:12000,
+image:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi susu dengan gula aren"
+},
+
+{
+id:3,
+name:"Butterscotch",
+category:"cold",
+price:12000,
+image:"https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=700&q=80",
+desc:"Minuman creamy butterscotch"
+},
+
+{
+id:4,
+name:"Matcha",
+category:"cold",
+price:12000,
+image:"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80",
+desc:"Matcha lembut dan segar"
+},
+
+{
+id:5,
+name:"Coklat",
+category:"cold",
+price:12000,
+image:"https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=700&q=80",
+desc:"Coklat creamy"
+},
+
+{
+id:6,
+name:"Americano",
+category:"cold",
+price:10000,
+image:"https://images.unsplash.com/photo-1551030173-122aabc4489c?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi hitam menyegarkan"
+},
+
+{
+id:7,
+name:"Taro",
+category:"cold",
+price:10000,
+image:"https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=700&q=80",
+desc:"Taro creamy"
+},
+
+{
+id:8,
+name:"Vanila",
+category:"cold",
+price:12000,
+image:"https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=700&q=80",
+desc:"Minuman vanila harum"
+},
+
+{
+id:9,
+name:"Kopi Aren / Hitam",
+category:"hot",
+price:12000,
+image:"https://images.unsplash.com/photo-1497636577773-f1231844b336?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi panas pilihan"
+},
+
+{
+id:10,
+name:"Kopi Aren Susu",
+category:"hot",
+price:12000,
+image:"https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi panas susu aren"
+},
+
+{
+id:11,
+name:"Kopi Ginseng Susu",
+category:"hot",
+price:12000,
+image:"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi ginseng susu"
+},
+
+{
+id:12,
+name:"Kopi Ginseng",
+category:"hot",
+price:10000,
+image:"https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi ginseng panas"
+},
+
+{
+id:13,
+name:"Teh Panas",
+category:"hot",
+price:5000,
+image:"https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=700&q=80",
+desc:"Teh panas"
+},
+
+{
+id:14,
+name:"Susu Murni",
+category:"hot",
+price:10000,
+image:"https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=700&q=80",
+desc:"Susu murni hangat"
+},
+
+{
+id:15,
+name:"Teh Susu",
+category:"hot",
+price:10000,
+image:"https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=700&q=80",
+desc:"Teh susu"
+},
+
+{
+id:16,
+name:"Milo Susu",
+category:"drink",
+price:9000,
+image:"https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=700&q=80",
+desc:"Milo susu creamy"
+},
+
+{
+id:17,
+name:"Milo",
+category:"drink",
+price:8000,
+image:"https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=700&q=80",
+desc:"Milo manis"
+},
+
+{
+id:18,
+name:"Teh Tarik",
+category:"drink",
+price:8000,
+image:"https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?auto=format&fit=crop&w=700&q=80",
+desc:"Teh tarik susu"
+},
+
+{
+id:19,
+name:"Cappuccino",
+category:"drink",
+price:8000,
+image:"https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=700&q=80",
+desc:"Cappuccino creamy"
+},
+
+{
+id:20,
+name:"Kopi Good Day",
+category:"drink",
+price:8000,
+image:"https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi Good Day"
+},
+
+{
+id:21,
+name:"Lemon Tea",
+category:"drink",
+price:8000,
+image:"https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=700&q=80",
+desc:"Teh lemon segar"
+},
+
+{
+id:22,
+name:"Energen",
+category:"drink",
+price:8000,
+image:"https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=700&q=80",
+desc:"Minuman Energen"
+},
+
+{
+id:23,
+name:"Kopi Top",
+category:"drink",
+price:8000,
+image:"https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi nikmat"
+},
+
+{
+id:24,
+name:"Kopi Nescafe",
+category:"drink",
+price:8000,
+image:"https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=700&q=80",
+desc:"Kopi aroma khas"
+},
+
+{
+id:25,
+name:"Nutrisari",
+category:"drink",
+price:5000,
+image:"https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=700&q=80",
+desc:"Minuman buah"
+},
+
+{
+id:26,
+name:"Air Mineral",
+category:"drink",
+price:5000,
+image:"https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=700&q=80",
+desc:"Air mineral"
+},
+
+{
+id:27,
+name:"Es Kosong",
+category:"drink",
+price:2000,
+image:"https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=700&q=80",
+desc:"Es kosong"
+},
+
+{
+id:28,
+name:"Susu Jahe",
+category:"drink",
+price:8000,
+image:"https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=700&q=80",
+desc:"Susu jahe"
+},
+
+{
+id:29,
+name:"Nasi Goreng",
+category:"food",
+price:12000,
+image:"https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=700&q=80",
+desc:"Nasi goreng gurih",
+badge:"FAVORIT"
+},
+
+{
+id:30,
+name:"Mie Goreng + Telur",
+category:"food",
+price:12000,
+image:"https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=700&q=80",
+desc:"Mie goreng plus telur"
+},
+
+{
+id:31,
+name:"Mie Goreng",
+category:"food",
+price:10000,
+image:"https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=700&q=80",
+desc:"Mie goreng gurih"
+},
+
+{
+id:32,
+name:"Mie Rebus",
+category:"food",
+price:12000,
+image:"https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=700&q=80",
+desc:"Mie rebus hangat"
+},
+
+{
+id:33,
+name:"Pop Mie",
+category:"food",
+price:8000,
+image:"https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=700&q=80",
+desc:"Pop mie praktis"
+},
+
+{
+id:34,
+name:"Pisang Crispy",
+category:"food",
+price:8000,
+image:"https://images.unsplash.com/photo-1628102491629-778571d893a3?auto=format&fit=crop&w=700&q=80",
+desc:"Pisang crispy"
+},
+
+{
+id:35,
+name:"Ubi Goreng",
+category:"food",
+price:8000,
+image:"https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=700&q=80",
+desc:"Ubi goreng renyah"
+},
+
+{
+id:36,
+name:"Kentang",
+category:"food",
+price:8000,
+image:"https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=700&q=80",
+desc:"Kentang goreng"
+},
+
+{
+id:37,
+name:"Sosis",
+category:"food",
+price:8000,
+image:"https://images.unsplash.com/photo-1612392062631-94dd858cba88?auto=format&fit=crop&w=700&q=80",
+desc:"Sosis gurih"
+},
+
+{
+id:38,
+name:"Nugget",
+category:"food",
+price:8000,
+image:"https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=700&q=80",
+desc:"Nugget crispy"
+},
+
+{
+id:39,
+name:"Otak-Otak",
+category:"food",
+price:8000,
+image:"https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=700&q=80",
+desc:"Otak-otak gurih"
+}
+
+];
+
+
+/* =========================
+   CART
+========================= */
+
+let cart =
+JSON.parse(
+localStorage.getItem(
+"kopiOciokCart"
+)
+) || [];
+
+
+/* =========================
+   RUPIAH
+========================= */
+
+function rupiah(n){
+
+return new Intl.NumberFormat(
+"id-ID",
+{
+style:"currency",
+currency:"IDR",
+maximumFractionDigits:0
+}
+).format(n);
+
+}
+
+
+/* =========================
+   KATEGORI
+========================= */
+
+function categoryName(c){
+
+return {
+cold:"Minuman Dingin",
+hot:"Minuman Panas",
+drink:"Minuman",
+food:"Makanan"
+}[c];
+
+}
+
+
+/* =========================
+   PRODUK
+========================= */
+
+function productHTML(p){
+
+return `
+
+<div class="product">
+
+<div class="product-img">
+
+<img
+src="${p.image}"
+alt="${p.name}">
+
+${p.badge ?
+`
+<div class="badge">
+${p.badge}
+</div>
+`
+:""}
+
+<button
+class="favorite"
+onclick="favorite(this)">
+♡
+</button>
+
+</div>
+
+<div class="product-info">
+
+<div class="product-category">
+${categoryName(p.category)}
+</div>
+
+<div class="product-name">
+${p.name}
+</div>
+
+<div class="product-desc">
+${p.desc}
+</div>
+
+<div class="product-bottom">
+
+<div class="price">
+${rupiah(p.price)}
+</div>
+
+<button
+class="add"
+onclick="addCart(${p.id})">
++
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+function renderHome(){
+
+document.getElementById(
+"homeProducts"
+).innerHTML =
+products
+.slice(0,8)
+.map(productHTML)
+.join("");
+
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+function renderMenu(){
+
+let search =
+document.getElementById(
+"menuSearch"
+).value
+.toLowerCase();
+
+let cat =
+document.getElementById(
+"menuCategory"
+).value;
+
+let result =
+products.filter(p => {
+
+let matchName =
+p.name
+.toLowerCase()
+.includes(search);
+
+let matchCat =
+cat === "all" ||
+p.category === cat;
+
+return matchName && matchCat;
+
+});
+
+
+document.getElementById(
+"menuProducts"
+).innerHTML =
+result
+.map(productHTML)
+.join("");
+
+}
+
+
+/* =========================
+   NAVIGASI
+========================= */
+
+function go(page){
+
+document
+.querySelectorAll(".page")
+.forEach(p =>
+p.classList.remove("active")
+);
+
+document
+.getElementById(
+"page-"+page
+)
+.classList.add("active");
+
+
+document
+.querySelectorAll(".nav-btn")
+.forEach(btn => {
+
+btn.classList.remove("active");
+
+if(
+btn.dataset.page === page
+){
+btn.classList.add("active");
+}
+
+});
+
+
+if(page === "menu"){
+renderMenu();
+}
+
+if(page === "cart"){
+renderCart();
+}
+
+window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+function category(cat){
+
+document.getElementById(
+"menuCategory"
+).value = cat;
+
+document.getElementById(
+"menuSearch"
+).value = "";
+
+go("menu");
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchGlobal(value){
+
+go("menu");
+
+document.getElementById(
+"menuSearch"
+).value = value;
+
+renderMenu();
+
+}
+
+
+/* =========================
+   ADD CART
+========================= */
+
+function addCart(id){
+
+let p =
+products.find(
+x => x.id === id
+);
+
+let existing =
+cart.find(
+x => x.id === id
+);
+
+if(existing){
+
+existing.qty++;
+
+}else{
+
+cart.push({
+
+id:p.id,
+name:p.name,
+price:p.price,
+image:p.image,
+qty:1
+
+});
+
+}
+
+saveCart();
+
+updateCount();
+
+showToast(
+"☕ "+p.name+
+" masuk keranjang"
+);
+
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveCart(){
+
+localStorage.setItem(
+"kopiOciokCart",
+JSON.stringify(cart)
+);
+
+}
+
+
+/* =========================
+   COUNT
+========================= */
+
+function updateCount(){
+
+let total =
+cart.reduce(
+(a,b)=>a+b.qty,
+0
+);
+
+document.getElementById(
+"cartCount"
+).textContent =
+total;
+
+document.getElementById(
+"summaryQty"
+).textContent =
+total;
+
+}
+
+
+/* =========================
+   CART
+========================= */
+
+function renderCart(){
+
+let box =
+document.getElementById(
+"cartItems"
+);
+
+if(cart.length === 0){
+
+box.innerHTML = `
+
+<div class="empty">
+
+<div class="empty-icon">
+🛒
+</div>
+
+<h3>
+Keranjang kosong
+</h3>
+
+<p>
+Yuk pilih menu favoritmu.
+</p>
+
+<button
+class="hero-btn"
+onclick="go('menu')">
+
+Belanja Sekarang
+
+</button>
+
+</div>
+
+`;
+
+}else{
+
+box.innerHTML =
+cart.map(item => `
+
+<div class="cart-item">
+
+<img
+class="cart-img"
+src="${item.image}">
+
+<div class="cart-info">
+
+<h3>
+${item.name}
+</h3>
+
+<div class="cart-price">
+${rupiah(item.price)}
+</div>
+
+<div class="qty">
+
+<button
+onclick="changeQty(${item.id},-1)">
+−
+</button>
+
+<strong>
+${item.qty}
+</strong>
+
+<button
+onclick="changeQty(${item.id},1)">
++
+</button>
+
+<button
+class="remove"
+onclick="removeCart(${item.id})">
+
+Hapus
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+let total =
+cart.reduce(
+(a,b)=>
+a+b.price*b.qty,
+0
+);
+
+
+document.getElementById(
+"summarySubtotal"
+).textContent =
+rupiah(total);
+
+document.getElementById(
+"summaryTotal"
+).textContent =
+rupiah(total);
+
+updateCount();
+
+}
+
+
+/* =========================
+   JUMLAH
+========================= */
+
+function changeQty(id,value){
+
+let item =
+cart.find(
+x=>x.id===id
+);
+
+if(!item)return;
+
+item.qty += value;
+
+if(item.qty<=0){
+
+cart =
+cart.filter(
+x=>x.id!==id
+);
+
+}
+
+saveCart();
+
+renderCart();
+
+}
+
+
+/* =========================
+   HAPUS
+========================= */
+
+function removeCart(id){
+
+cart =
+cart.filter(
+x=>x.id!==id
+);
+
+saveCart();
+
+renderCart();
+
+showToast(
+"Produk dihapus"
+);
+
+}
+
+
+/* =========================
+   FAVORITE
+========================= */
+
+function favorite(btn){
+
+if(
+btn.textContent.trim()
+==="♡"
+){
+
+btn.textContent="♥";
+
+btn.style.color=
+"#ff4444";
+
+showToast(
+"❤️ Ditambahkan ke favorit"
+);
+
+}else{
+
+btn.textContent="♡";
+
+btn.style.color=
+"white";
+
+}
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function checkout(){
+
+if(cart.length===0){
+
+showToast(
+"🛒 Keranjang masih kosong"
+);
+
+return;
+
+}
+
+let pesan =
+"Halo KOPI OCIOK 👋%0A%0A"+
+"Saya ingin memesan:%0A";
+
+cart.forEach(item=>{
+
+pesan +=
+"• "+item.name+
+" x"+item.qty+
+" = "+
+rupiah(
+item.price*item.qty
+)+
+"%0A";
+
+});
+
+
+let total =
+cart.reduce(
+(a,b)=>
+a+b.price*b.qty,
+0
+);
+
+pesan +=
+"%0A💰 Total: "+
+rupiah(total)+
+"%0A%0A";
+
+pesan +=
+"Terima kasih ☕";
+
+
+/*
+=================================
+GANTI NOMOR WHATSAPP DI SINI
+=================================
+*/
+
+let nomor =
+"6280000000000";
+
+
+window.open(
+"https://wa.me/"+
+nomor+
+"?text="+
+pesan,
+"_blank"
+);
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+function showToast(text){
+
+let toast =
+document.getElementById(
+"toast"
+);
+
+toast.textContent=text;
+
+toast.classList.add("show");
+
+clearTimeout(toastTimer);
+
+toastTimer =
+setTimeout(
+()=>{
+toast.classList.remove(
+"show"
+);
+},
+2000
+);
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+window.addEventListener(
+"load",
+()=>{
+
+renderHome();
+
+updateCount();
+
+setTimeout(
+()=>{
+
+document
+.querySelector(".loader")
+?.remove();
+
+},
+1200
+);
+
+});
+
+</script>
+
+
+<!-- LOADING -->
+
+<div class="loader">
+
+<div class="loader-logo">
+
+☕ KOPI
+<span>OCIOK</span>
+
+</div>
+
+<div class="loader-coffee">
+☕
+</div>
+
+<div class="loader-line">
+
+<div class="loader-progress">
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
