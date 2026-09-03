@@ -5,11 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin KOPI OCIOK</title>
+<title>KOPI OCIOK - Admin Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -17,7 +18,7 @@
 }
 
 body{
-    font-family:Arial,sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
     background:#090909;
     color:#fff;
     min-height:100vh;
@@ -25,157 +26,274 @@ body{
 
 button,
 input,
-select{
+select,
+textarea{
     font-family:inherit;
 }
 
-header{
-    background:#151515;
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid #292929;
-    position:sticky;
-    top:0;
-    z-index:50;
-}
-
-.logo{
-    font-size:19px;
-    font-weight:bold;
-    color:#ff8a00;
-}
-
-.logo span{
-    display:block;
-    font-size:10px;
-    color:#999;
-    margin-top:3px;
-}
-
-.logout{
-    border:0;
-    background:#e53935;
-    color:#fff;
-    padding:9px 13px;
-    border-radius:8px;
+button{
     cursor:pointer;
 }
 
-.container{
+/* ================= LOGIN ================= */
+
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at top,#3b2416 0,#090909 45%);
+}
+
+.login-box{
+    width:100%;
+    max-width:420px;
+    background:#141414;
+    border:1px solid #292929;
+    border-radius:24px;
+    padding:30px 24px;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+.logo{
+    text-align:center;
+    font-size:42px;
+    margin-bottom:8px;
+}
+
+.login-title{
+    text-align:center;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.login-subtitle{
+    text-align:center;
+    color:#999;
+    margin:8px 0 25px;
+}
+
+.input-group{
+    margin-bottom:16px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:7px;
+    color:#ccc;
+    font-size:14px;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select{
+    width:100%;
+    background:#0c0c0c;
+    color:white;
+    border:1px solid #333;
+    border-radius:12px;
+    padding:13px;
+    outline:none;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus{
+    border-color:#c78b4a;
+}
+
+.login-btn{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:13px;
+    background:linear-gradient(135deg,#c98a4b,#8c5729);
+    color:#fff;
+    font-weight:bold;
+    font-size:16px;
+}
+
+.login-btn:disabled{
+    opacity:.6;
+}
+
+.login-error{
+    display:none;
+    background:#351515;
+    color:#ff8585;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-size:14px;
+}
+
+/* ================= DASHBOARD ================= */
+
+#dashboard{
+    display:none;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(10,10,10,.96);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid #242424;
+}
+
+.header-inner{
     max-width:1200px;
     margin:auto;
-    padding:18px;
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.brand{
+    font-weight:bold;
+}
+
+.brand-title{
+    font-size:20px;
+}
+
+.brand-sub{
+    color:#999;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.logout-btn{
+    background:#241414;
+    border:1px solid #4b2020;
+    color:#ff8b8b;
+    border-radius:10px;
+    padding:10px 14px;
+}
+
+.container{
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    padding:22px 20px 60px;
 }
 
 .welcome{
-    background:linear-gradient(135deg,#251708,#151515);
-    padding:22px;
-    border-radius:16px;
-    margin-bottom:18px;
-    border:1px solid #332516;
+    background:linear-gradient(135deg,#21170f,#151515);
+    border:1px solid #30251d;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:20px;
 }
 
 .welcome h1{
     font-size:25px;
-    margin-bottom:6px;
+    margin-bottom:7px;
 }
 
 .welcome p{
-    color:#aaa;
-    font-size:13px;
+    color:#999;
+    font-size:14px;
 }
+
+/* ================= STATS ================= */
 
 .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin-bottom:20px;
+    gap:14px;
+    margin-bottom:25px;
 }
 
 .stat{
-    background:#151515;
+    background:#141414;
     border:1px solid #292929;
-    border-radius:14px;
-    padding:17px;
+    border-radius:16px;
+    padding:18px;
 }
 
-.stat .icon{
+.stat-icon{
+    font-size:25px;
+    margin-bottom:10px;
+}
+
+.stat-title{
+    color:#888;
+    font-size:13px;
+}
+
+.stat-value{
     font-size:24px;
-}
-
-.stat h3{
-    margin-top:8px;
-    color:#999;
-    font-size:12px;
-}
-
-.stat strong{
-    display:block;
-    font-size:21px;
+    font-weight:bold;
     margin-top:5px;
-    color:#ff9d2e;
 }
+
+/* ================= SECTION ================= */
 
 .section{
-    background:#151515;
-    border:1px solid #292929;
-    border-radius:15px;
+    background:#111;
+    border:1px solid #252525;
+    border-radius:18px;
+    margin-bottom:22px;
+    overflow:hidden;
+}
+
+.section-header{
     padding:18px;
-    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    border-bottom:1px solid #242424;
 }
 
 .section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-bottom:15px;
-}
-
-.section-title h2{
-    font-size:18px;
-}
-
-.add-btn,
-.refresh-btn{
-    border:0;
-    padding:10px 14px;
-    border-radius:8px;
+    font-size:19px;
     font-weight:bold;
-    cursor:pointer;
 }
 
-.add-btn{
-    background:#ff8a00;
-    color:#111;
-}
-
-.refresh-btn{
-    background:#292929;
-    color:#fff;
+.section-actions{
+    display:flex;
+    gap:8px;
 }
 
 .search{
-    margin-bottom:15px;
-}
-
-input,
-select{
-    width:100%;
-    background:#0d0d0d;
-    color:#fff;
+    background:#0b0b0b;
+    color:white;
     border:1px solid #333;
-    padding:10px;
-    border-radius:8px;
+    border-radius:10px;
+    padding:10px 12px;
+    width:210px;
     outline:none;
 }
 
-input:focus,
-select:focus{
-    border-color:#ff8a00;
+.primary-btn{
+    border:0;
+    background:#c58340;
+    color:white;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:bold;
 }
+
+.refresh-btn{
+    border:1px solid #333;
+    background:#1a1a1a;
+    color:#fff;
+    padding:10px 13px;
+    border-radius:10px;
+}
+
+.section-body{
+    padding:18px;
+}
+
+/* ================= TABLE ================= */
 
 .table-wrap{
     overflow-x:auto;
@@ -187,431 +305,618 @@ table{
     min-width:760px;
 }
 
-th,
-td{
-    padding:12px 9px;
-    border-bottom:1px solid #292929;
-    text-align:left;
-    font-size:13px;
-}
-
 th{
-    color:#ff9d2e;
+    text-align:left;
+    padding:13px;
+    color:#888;
+    font-size:12px;
+    border-bottom:1px solid #292929;
 }
 
-.action{
-    display:flex;
-    gap:6px;
+td{
+    padding:14px 13px;
+    border-bottom:1px solid #202020;
+    font-size:14px;
 }
 
-.edit-btn,
-.delete-btn,
-.status-btn{
-    border:0;
-    padding:8px 10px;
-    border-radius:7px;
-    cursor:pointer;
-    color:#fff;
+.product-name{
+    font-weight:bold;
 }
 
-.edit-btn{
-    background:#1565c0;
-}
-
-.delete-btn{
-    background:#c62828;
-}
-
-.status-btn{
-    background:#6a4500;
+.muted{
+    color:#888;
+    font-size:12px;
+    margin-top:3px;
 }
 
 .badge{
     display:inline-block;
-    padding:5px 8px;
+    padding:5px 9px;
     border-radius:20px;
-    background:#222;
-    color:#aaa;
     font-size:11px;
+    background:#242424;
+    color:#ddd;
 }
 
-.badge.good{
-    background:#123d20;
-    color:#55d879;
+.badge.active{
+    background:#14351e;
+    color:#72e38e;
 }
 
-.badge.empty{
-    background:#431515;
-    color:#ff6868;
+.badge.inactive{
+    background:#381818;
+    color:#ff8787;
 }
+
+.action-btn{
+    border:0;
+    border-radius:8px;
+    padding:7px 9px;
+    margin-right:4px;
+}
+
+.edit{
+    background:#243447;
+    color:#8ec8ff;
+}
+
+.delete{
+    background:#3a1818;
+    color:#ff8787;
+}
+
+/* ================= ORDERS ================= */
 
 .order-card{
-    background:#101010;
+    background:#151515;
     border:1px solid #292929;
     border-radius:14px;
-    padding:16px;
-    margin-bottom:12px;
+    padding:17px;
+    margin-bottom:13px;
 }
 
-.order-head{
+.order-top{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-bottom:12px;
+    align-items:flex-start;
+    gap:15px;
 }
 
-.order-number{
-    color:#ff9d2e;
+.order-id{
     font-weight:bold;
 }
 
-.order-info{
-    color:#bbb;
-    font-size:13px;
-    line-height:1.7;
+.order-date{
+    color:#777;
+    font-size:12px;
+    margin-top:4px;
 }
 
-.order-items{
-    margin-top:12px;
+.customer{
+    margin-top:15px;
+    line-height:1.6;
+    color:#ccc;
+    font-size:14px;
+}
+
+.items{
+    margin-top:15px;
     border-top:1px solid #292929;
-    border-bottom:1px solid #292929;
-    padding:10px 0;
+    padding-top:12px;
 }
 
-.order-item{
+.item-row{
     display:flex;
     justify-content:space-between;
     gap:10px;
-    padding:7px 0;
-    font-size:13px;
+    padding:6px 0;
+    color:#ccc;
+    font-size:14px;
 }
 
-.order-total{
+.order-bottom{
     display:flex;
     justify-content:space-between;
+    align-items:center;
+    border-top:1px solid #292929;
     margin-top:12px;
-    font-size:16px;
-    color:#ff9d2e;
+    padding-top:13px;
 }
 
-.status-select{
-    margin-top:12px;
+.total{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.status{
+    border:1px solid #333;
+    background:#0c0c0c;
+    color:white;
+    border-radius:9px;
+    padding:8px;
 }
 
 .empty{
     text-align:center;
-    color:#888;
-    padding:30px;
+    color:#777;
+    padding:35px 10px;
 }
 
-.loading{
-    text-align:center;
-    padding:25px;
-    color:#aaa;
-}
-
-.error{
-    background:#3a1212;
-    color:#ff7777;
-    padding:14px;
-    border-radius:10px;
-    margin-bottom:15px;
-}
+/* ================= MODAL ================= */
 
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.8);
+    z-index:100;
     display:none;
     align-items:center;
     justify-content:center;
-    padding:15px;
-    z-index:100;
-}
-
-.modal.active{
-    display:flex;
+    padding:20px;
+    background:rgba(0,0,0,.78);
 }
 
 .modal-box{
     width:100%;
-    max-width:480px;
+    max-width:500px;
     max-height:90vh;
-    overflow-y:auto;
-    background:#181818;
+    overflow:auto;
+    background:#151515;
     border:1px solid #333;
-    border-radius:16px;
-    padding:20px;
+    border-radius:20px;
+    padding:22px;
 }
 
-.modal-box h2{
-    margin-bottom:16px;
-}
-
-.form-group{
-    margin-bottom:13px;
-}
-
-.form-group label{
-    display:block;
-    font-size:13px;
-    color:#aaa;
-    margin-bottom:6px;
-}
-
-.modal-buttons{
+.modal-header{
     display:flex;
-    gap:8px;
-    margin-top:18px;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
 }
 
-.modal-buttons button{
-    flex:1;
+.modal-title{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.close{
+    border:0;
+    background:#252525;
+    color:white;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    font-size:18px;
+}
+
+.modal-footer{
+    display:flex;
+    justify-content:flex-end;
+    gap:9px;
+    margin-top:20px;
 }
 
 .cancel-btn{
-    background:#555;
-    color:#fff;
-    border:0;
-    padding:10px;
-    border-radius:8px;
-    cursor:pointer;
+    border:1px solid #333;
+    background:#222;
+    color:white;
+    border-radius:10px;
+    padding:11px 15px;
 }
 
 .save-btn{
-    background:#2e7d32;
-    color:#fff;
     border:0;
-    padding:10px;
-    border-radius:8px;
-    cursor:pointer;
+    background:#c58340;
+    color:white;
+    border-radius:10px;
+    padding:11px 18px;
+    font-weight:bold;
 }
 
-.toast{
+/* ================= TOAST ================= */
+
+#toast{
     position:fixed;
     left:50%;
     bottom:25px;
-    transform:translateX(-50%);
-    background:#222;
-    color:#fff;
-    padding:12px 18px;
-    border-radius:10px;
-    display:none;
+    transform:translateX(-50%) translateY(100px);
     z-index:200;
+    background:#222;
     border:1px solid #444;
+    color:white;
+    padding:12px 18px;
+    border-radius:12px;
+    opacity:0;
+    transition:.3s;
 }
 
-.toast.show{
-    display:block;
+#toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
 }
 
-@media(max-width:800px){
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:850px){
 
     .stats{
         grid-template-columns:repeat(2,1fr);
     }
 
+    .section-header{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .section-actions{
+        flex-wrap:wrap;
+    }
+
+    .search{
+        width:100%;
+    }
 }
 
 @media(max-width:600px){
 
     .container{
-        padding:10px;
+        padding:15px 12px 45px;
     }
 
-    .stats{
-        grid-template-columns:1fr 1fr;
-        gap:8px;
+    .header-inner{
+        padding:13px 12px;
     }
 
-    .stat{
-        padding:13px;
+    .brand-title{
+        font-size:17px;
     }
 
-    .stat strong{
-        font-size:18px;
-    }
-
-    .welcome{
-        padding:17px;
+    .logout-btn{
+        padding:8px 10px;
+        font-size:12px;
     }
 
     .welcome h1{
         font-size:21px;
     }
 
-    .section{
+    .stats{
+        gap:9px;
+    }
+
+    .stat{
         padding:13px;
     }
 
+    .stat-icon{
+        font-size:20px;
+    }
+
+    .stat-value{
+        font-size:19px;
+    }
+
+    .section{
+        border-radius:14px;
+    }
+
+    .section-header,
+    .section-body{
+        padding:14px;
+    }
+
     .section-title{
+        font-size:17px;
+    }
+
+    .primary-btn,
+    .refresh-btn{
+        flex:1;
+    }
+
+    .order-top{
+        flex-direction:column;
+    }
+
+    .order-bottom{
         align-items:flex-start;
+        flex-direction:column;
+        gap:10px;
     }
 
-    .section-title h2{
-        font-size:16px;
+    .status{
+        width:100%;
     }
-
 }
+
 </style>
 </head>
 
 <body>
 
-<header>
+<!-- ================= LOGIN PAGE ================= -->
 
-    <div class="logo">
-        ☕ KOPI OCIOK
-        <span>ADMIN DASHBOARD PREMIUM</span>
+<div id="loginPage">
+
+    <div class="login-box">
+
+        <div class="logo">☕</div>
+
+        <div class="login-title">
+            KOPI OCIOK
+        </div>
+
+        <div class="login-subtitle">
+            Login Admin Dashboard
+        </div>
+
+        <div id="loginError" class="login-error"></div>
+
+        <form id="loginForm">
+
+            <div class="input-group">
+                <label>Email Admin</label>
+                <input
+                    id="loginEmail"
+                    type="email"
+                    placeholder="Masukkan email admin"
+                    required
+                    autocomplete="email"
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input
+                    id="loginPassword"
+                    type="password"
+                    placeholder="Masukkan password"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button
+                id="loginButton"
+                class="login-btn"
+                type="submit">
+                🔐 Masuk sebagai Admin
+            </button>
+
+        </form>
+
     </div>
 
-    <button class="logout" onclick="logout()">
-        Keluar
-    </button>
+</div>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<div id="dashboard">
+
+<header>
+
+    <div class="header-inner">
+
+        <div class="brand">
+
+            <div class="brand-title">
+                ☕ KOPI OCIOK
+            </div>
+
+            <div class="brand-sub">
+                ADMIN DASHBOARD
+            </div>
+
+        </div>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+            Keluar
+        </button>
+
+    </div>
 
 </header>
+
 
 <main class="container">
 
     <div class="welcome">
 
         <h1>
-            Dashboard Admin ☕
+            Dashboard Admin 👋
         </h1>
 
         <p id="adminEmail">
-            Memeriksa akun...
+            Login sebagai admin
         </p>
 
     </div>
 
-    <div id="errorBox"></div>
 
-    <!-- STATISTIK -->
+    <!-- ================= STATS ================= -->
 
     <div class="stats">
 
         <div class="stat">
-            <div class="icon">📦</div>
-            <h3>Total Produk</h3>
-            <strong id="totalProducts">0</strong>
+
+            <div class="stat-icon">☕</div>
+
+            <div class="stat-title">
+                Total Produk
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalProducts">
+                0
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="icon">📊</div>
-            <h3>Total Stok</h3>
-            <strong id="totalStock">0</strong>
-        </div>
 
         <div class="stat">
-            <div class="icon">🛒</div>
-            <h3>Total Pesanan</h3>
-            <strong id="totalOrders">0</strong>
+
+            <div class="stat-icon">📦</div>
+
+            <div class="stat-title">
+                Total Stok
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalStock">
+                0
+            </div>
+
         </div>
 
+
         <div class="stat">
-            <div class="icon">💰</div>
-            <h3>Total Penjualan</h3>
-            <strong id="totalSales">Rp 0</strong>
+
+            <div class="stat-icon">🛒</div>
+
+            <div class="stat-title">
+                Total Pesanan
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalOrders">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">💰</div>
+
+            <div class="stat-title">
+                Total Penjualan
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalSales">
+                Rp0
+            </div>
+
         </div>
 
     </div>
 
 
-    <!-- PESANAN -->
+    <!-- ================= PESANAN ================= -->
 
     <section class="section">
 
-        <div class="section-title">
+        <div class="section-header">
 
-            <h2>
+            <div class="section-title">
                 🛒 Pesanan Pelanggan
-            </h2>
+            </div>
 
-            <button
-                class="refresh-btn"
-                onclick="loadOrders()">
-                🔄 Refresh
-            </button>
+            <div class="section-actions">
 
-        </div>
+                <input
+                    id="orderSearch"
+                    class="search"
+                    type="search"
+                    placeholder="Cari pesanan..."
+                    oninput="filterOrders()"
+                >
 
-        <div class="search">
+                <button
+                    class="refresh-btn"
+                    onclick="loadOrders()">
+                    🔄 Refresh
+                </button>
 
-            <input
-                id="orderSearch"
-                placeholder="🔎 Cari nama, nomor, atau ID pesanan..."
-                oninput="filterOrders()">
-
-        </div>
-
-        <div id="ordersLoading" class="loading">
-            Memuat pesanan...
-        </div>
-
-        <div id="ordersContainer"></div>
-
-    </section>
-
-
-    <!-- PRODUK -->
-
-    <section class="section">
-
-        <div class="section-title">
-
-            <h2>
-                ☕ Produk KOPI OCIOK
-            </h2>
-
-            <button
-                class="add-btn"
-                onclick="openAddModal()">
-                + Tambah
-            </button>
-
-        </div>
-
-        <div class="search">
-
-            <input
-                id="productSearch"
-                placeholder="🔎 Cari produk..."
-                oninput="filterProducts()">
+            </div>
 
         </div>
 
         <div
-            id="productLoading"
-            class="loading">
-            Memuat produk...
+            id="ordersList"
+            class="section-body">
+
+            <div class="empty">
+                Memuat pesanan...
+            </div>
+
         </div>
 
-        <div class="table-wrap">
+    </section>
 
-            <table
-                id="productTable"
-                style="display:none;">
 
-                <thead>
+    <!-- ================= PRODUK ================= -->
 
-                    <tr>
+    <section class="section">
 
-                        <th>Nama</th>
-                        <th>Kategori</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
+        <div class="section-header">
 
-                    </tr>
+            <div class="section-title">
+                ☕ Produk
+            </div>
 
-                </thead>
+            <div class="section-actions">
 
-                <tbody id="productList"></tbody>
+                <input
+                    id="productSearch"
+                    class="search"
+                    type="search"
+                    placeholder="Cari produk..."
+                    oninput="filterProducts()"
+                >
 
-            </table>
+                <button
+                    class="primary-btn"
+                    onclick="openAddModal()">
+                    + Tambah Produk
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-body">
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Produk</th>
+                            <th>Kategori</th>
+                            <th>Harga</th>
+                            <th>Stok</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="productsTable">
+
+                        <tr>
+                            <td colspan="6" class="empty">
+                                Memuat produk...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
 
@@ -619,61 +924,72 @@ th{
 
 </main>
 
+</div>
 
-<!-- MODAL TAMBAH -->
+
+<!-- ================= ADD MODAL ================= -->
 
 <div
-    class="modal"
-    id="addModal">
+    id="addModal"
+    class="modal">
 
     <div class="modal-box">
 
-        <h2>
-            ☕ Tambah Produk
-        </h2>
+        <div class="modal-header">
 
-        <div class="form-group">
+            <div class="modal-title">
+                Tambah Produk
+            </div>
 
-            <label>
-                Nama Produk
-            </label>
+            <button
+                class="close"
+                onclick="closeAddModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>Nama Produk</label>
 
             <input
                 id="addName"
-                placeholder="Contoh: Kopi Susu">
+                type="text"
+                placeholder="Contoh: Kopi Latte">
 
         </div>
 
-        <div class="form-group">
 
-            <label>
-                Deskripsi
-            </label>
+        <div class="input-group">
 
-            <input
+            <label>Deskripsi</label>
+
+            <textarea
                 id="addDescription"
-                placeholder="Deskripsi produk">
+                rows="3"
+                placeholder="Deskripsi produk"></textarea>
 
         </div>
 
-        <div class="form-group">
 
-            <label>
-                Harga
-            </label>
+        <div class="input-group">
+
+            <label>Harga</label>
 
             <input
                 id="addPrice"
                 type="number"
-                placeholder="8000">
+                min="0"
+                placeholder="10000">
 
         </div>
 
-        <div class="form-group">
 
-            <label>
-                Kategori
-            </label>
+        <div class="input-group">
+
+            <label>Kategori</label>
 
             <select id="addCategory">
 
@@ -693,32 +1009,52 @@ th{
 
         </div>
 
-        <div class="form-group">
 
-            <label>
-                Stok
-            </label>
+        <div class="input-group">
+
+            <label>Stok</label>
 
             <input
                 id="addStock"
                 type="number"
-                placeholder="30">
+                min="0"
+                value="0">
 
         </div>
 
-        <div class="form-group">
 
-            <label>
-                URL Gambar
-            </label>
+        <div class="input-group">
+
+            <label>URL Gambar</label>
 
             <input
                 id="addImage"
+                type="url"
                 placeholder="https://...">
 
         </div>
 
-        <div class="modal-buttons">
+
+        <div class="input-group">
+
+            <label>Status</label>
+
+            <select id="addActive">
+
+                <option value="true">
+                    Aktif
+                </option>
+
+                <option value="false">
+                    Nonaktif
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-footer">
 
             <button
                 class="cancel-btn"
@@ -729,7 +1065,7 @@ th{
             <button
                 class="save-btn"
                 onclick="addProduct()">
-                Simpan
+                Simpan Produk
             </button>
 
         </div>
@@ -739,59 +1075,71 @@ th{
 </div>
 
 
-<!-- MODAL EDIT -->
+<!-- ================= EDIT MODAL ================= -->
 
 <div
-    class="modal"
-    id="editModal">
+    id="editModal"
+    class="modal">
 
     <div class="modal-box">
 
-        <h2>
-            ✏️ Edit Produk
-        </h2>
+        <div class="modal-header">
+
+            <div class="modal-title">
+                Edit Produk
+            </div>
+
+            <button
+                class="close"
+                onclick="closeEditModal()">
+                ×
+            </button>
+
+        </div>
+
 
         <input
             id="editId"
             type="hidden">
 
-        <div class="form-group">
 
-            <label>
-                Nama Produk
-            </label>
+        <div class="input-group">
 
-            <input id="editName">
+            <label>Nama Produk</label>
 
-        </div>
-
-        <div class="form-group">
-
-            <label>
-                Deskripsi
-            </label>
-
-            <input id="editDescription">
+            <input
+                id="editName"
+                type="text">
 
         </div>
 
-        <div class="form-group">
 
-            <label>
-                Harga
-            </label>
+        <div class="input-group">
+
+            <label>Deskripsi</label>
+
+            <textarea
+                id="editDescription"
+                rows="3"></textarea>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>Harga</label>
 
             <input
                 id="editPrice"
-                type="number">
+                type="number"
+                min="0">
 
         </div>
 
-        <div class="form-group">
 
-            <label>
-                Kategori
-            </label>
+        <div class="input-group">
+
+            <label>Kategori</label>
 
             <select id="editCategory">
 
@@ -811,29 +1159,50 @@ th{
 
         </div>
 
-        <div class="form-group">
 
-            <label>
-                Stok
-            </label>
+        <div class="input-group">
+
+            <label>Stok</label>
 
             <input
                 id="editStock"
-                type="number">
+                type="number"
+                min="0">
 
         </div>
 
-        <div class="form-group">
 
-            <label>
-                URL Gambar
-            </label>
+        <div class="input-group">
 
-            <input id="editImage">
+            <label>URL Gambar</label>
+
+            <input
+                id="editImage"
+                type="url">
 
         </div>
 
-        <div class="modal-buttons">
+
+        <div class="input-group">
+
+            <label>Status</label>
+
+            <select id="editActive">
+
+                <option value="true">
+                    Aktif
+                </option>
+
+                <option value="false">
+                    Nonaktif
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-footer">
 
             <button
                 class="cancel-btn"
@@ -854,17 +1223,14 @@ th{
 </div>
 
 
-<div
-    class="toast"
-    id="toast">
-</div>
+<div id="toast"></div>
 
 
 <script>
 
-/* =====================================
+/* =========================================================
    SUPABASE
-===================================== */
+========================================================= */
 
 const SUPABASE_URL =
 "https://qxzfqbfoyhbawnvlmxkk.supabase.co";
@@ -879,194 +1245,319 @@ supabase.createClient(
 );
 
 
-/* =====================================
-   DATA
-===================================== */
+/* =========================================================
+   GLOBAL
+========================================================= */
 
-let allProducts = [];
-let allOrders = [];
+let products = [];
+let orders = [];
 
 
-/* =====================================
-   CEK ADMIN
-===================================== */
+/* =========================================================
+   LOGIN
+========================================================= */
 
-async function checkAdmin(){
+document
+.getElementById("loginForm")
+.addEventListener("submit", async function(e){
 
-    const {
-        data:{
-            user
-        },
-        error:userError
-    } =
-    await supabaseClient.auth.getUser();
+    e.preventDefault();
 
-    if(userError){
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
 
-        showError(
-            "Gagal memeriksa login: "
-            + userError.message
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+    const button =
+        document.getElementById("loginButton");
+
+    hideLoginError();
+
+    button.disabled = true;
+    button.textContent = "⏳ Memeriksa...";
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth
+        .signInWithPassword({
+            email:email,
+            password:password
+        });
+
+        if(error){
+            throw error;
+        }
+
+        if(!data.user){
+            throw new Error(
+                "Login gagal. User tidak ditemukan."
+            );
+        }
+
+        /* Cek apakah user adalah admin */
+
+        const {
+            data:admin,
+            error:adminError
+        } =
+        await supabaseClient
+        .from("admins")
+        .select("id,email")
+        .eq("id",data.user.id)
+        .maybeSingle();
+
+        if(adminError){
+            throw adminError;
+        }
+
+        if(!admin){
+
+            await supabaseClient.auth.signOut();
+
+            throw new Error(
+                "Akun berhasil login tetapi belum terdaftar sebagai admin."
+            );
+        }
+
+        showDashboard(data.user);
+
+    }catch(error){
+
+        console.error(error);
+
+        showLoginError(
+            error.message ||
+            "Email atau password salah."
         );
 
-        return;
+    }finally{
+
+        button.disabled = false;
+        button.textContent =
+            "🔐 Masuk sebagai Admin";
+
     }
 
-    if(!user){
-
-        window.location.href =
-        "index.html";
-
-        return;
-    }
-
-    document.getElementById(
-        "adminEmail"
-    ).textContent =
-    "Login sebagai: " + user.email;
+});
 
 
-    const {
-        data:admin,
-        error
-    } =
-    await supabaseClient
+/* =========================================================
+   CHECK SESSION
+========================================================= */
+
+async function checkSession(){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+        .auth
+        .getSession();
+
+        if(error){
+            console.error(error);
+            return;
+        }
+
+        const session = data.session;
+
+        if(!session){
+            showLogin();
+            return;
+        }
+
+        const user = session.user;
+
+        const {
+            data:admin,
+            error:adminError
+        } =
+        await supabaseClient
         .from("admins")
         .select("id,email")
         .eq("id",user.id)
         .maybeSingle();
 
+        if(adminError){
 
-    if(error){
+            console.error(adminError);
 
-        showError(
-            "Gagal memeriksa admin: "
-            + error.message
-        );
+            await supabaseClient.auth.signOut();
 
-        return;
+            showLogin();
+
+            return;
+        }
+
+        if(!admin){
+
+            await supabaseClient.auth.signOut();
+
+            showLogin();
+
+            showLoginError(
+                "Akun ini bukan admin."
+            );
+
+            return;
+        }
+
+        showDashboard(user);
+
+    }catch(error){
+
+        console.error(error);
+
+        showLogin();
+
     }
 
+}
 
-    if(!admin){
 
-        alert(
-            "Akun ini bukan admin."
-        );
+/* =========================================================
+   SHOW LOGIN
+========================================================= */
 
-        await supabaseClient.auth.signOut();
+function showLogin(){
 
-        window.location.href =
-        "index.html";
+    document
+    .getElementById("loginPage")
+    .style.display = "flex";
 
-        return;
-    }
+    document
+    .getElementById("dashboard")
+    .style.display = "none";
 
+}
+
+
+/* =========================================================
+   SHOW DASHBOARD
+========================================================= */
+
+async function showDashboard(user){
+
+    document
+    .getElementById("loginPage")
+    .style.display = "none";
+
+    document
+    .getElementById("dashboard")
+    .style.display = "block";
+
+    document
+    .getElementById("adminEmail")
+    .textContent =
+        "Login sebagai: " +
+        (user.email || "Admin");
 
     await loadProducts();
+
     await loadOrders();
 
 }
 
 
-/* =====================================
-   LOAD PRODUCTS
-===================================== */
+/* =========================================================
+   PRODUCTS
+========================================================= */
 
 async function loadProducts(){
-
-    const loading =
-    document.getElementById(
-        "productLoading"
-    );
-
-    loading.style.display =
-    "block";
-
 
     const {
         data,
         error
     } =
     await supabaseClient
-        .from("products")
-        .select(
-            "id,name,description,price,category,stock,image_url,is_active"
-        )
-        .order(
-            "id",
-            {
-                ascending:true
-            }
-        );
-
+    .from("products")
+    .select(`
+        id,
+        name,
+        description,
+        price,
+        image_url,
+        category,
+        stock,
+        is_active,
+        created_at
+    `)
+    .order("id",{ascending:true});
 
     if(error){
 
-        loading.style.display =
-        "none";
+        console.error(error);
 
-        showError(
-            "Gagal memuat produk: "
-            + error.message
+        showToast(
+            "❌ Gagal memuat produk: " +
+            error.message
         );
 
         return;
+
     }
 
+    products = data || [];
 
-    allProducts =
-    data || [];
+    renderProducts();
 
-    loading.style.display =
-    "none";
-
-    document.getElementById(
-        "productTable"
-    ).style.display =
-    "table";
-
-
-    renderProducts(
-        allProducts
-    );
+    updateStats();
 
 }
 
 
-/* =====================================
-   RENDER PRODUCTS
-===================================== */
+function renderProducts(list = products){
 
-function renderProducts(products){
+    const tbody =
+        document.getElementById(
+            "productsTable"
+        );
 
-    const list =
-    document.getElementById(
-        "productList"
-    );
+    if(!list.length){
 
-    list.innerHTML = "";
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">
+                    Tidak ada produk.
+                </td>
+            </tr>
+        `;
 
+        return;
+    }
 
-    let totalStock = 0;
+    tbody.innerHTML =
+    list.map(product => {
 
+        return `
 
-    products.forEach(product => {
-
-        totalStock +=
-        Number(product.stock || 0);
-
-
-        const row =
-        document.createElement("tr");
-
-
-        row.innerHTML = `
+        <tr>
 
             <td>
-                <strong>
+
+                <div class="product-name">
                     ${escapeHTML(product.name)}
-                </strong>
+                </div>
+
+                <div class="muted">
+                    ID: ${product.id}
+                </div>
+
             </td>
+
 
             <td>
                 <span class="badge">
@@ -1074,130 +1565,145 @@ function renderProducts(products){
                 </span>
             </td>
 
-            <td>
-                Rp ${Number(product.price || 0)
-                    .toLocaleString("id-ID")}
-            </td>
 
             <td>
-                ${Number(product.stock || 0)}
+                ${formatRupiah(product.price)}
             </td>
+
+
+            <td>
+                ${product.stock ?? 0}
+            </td>
+
 
             <td>
 
                 ${
-                    Number(product.stock || 0) > 0
-
+                    product.is_active
                     ?
-
-                    `<span class="badge good">
-                        Tersedia
+                    `<span class="badge active">
+                        Aktif
                     </span>`
-
                     :
-
-                    `<span class="badge empty">
-                        Habis
+                    `<span class="badge inactive">
+                        Nonaktif
                     </span>`
                 }
 
             </td>
 
+
             <td>
 
-                <div class="action">
+                <button
+                    class="action-btn edit"
+                    onclick="openEditModal(${product.id})">
+                    ✏️
+                </button>
 
-                    <button
-                        class="edit-btn"
-                        onclick="openEditModal(${product.id})">
-                        Edit
-                    </button>
-
-                    <button
-                        class="delete-btn"
-                        onclick="deleteProduct(${product.id})">
-                        Hapus
-                    </button>
-
-                </div>
+                <button
+                    class="action-btn delete"
+                    onclick="deleteProduct(${product.id})">
+                    🗑️
+                </button>
 
             </td>
 
+        </tr>
+
         `;
 
-
-        list.appendChild(row);
-
-    });
-
-
-    document.getElementById(
-        "totalProducts"
-    ).textContent =
-    allProducts.length;
-
-
-    document.getElementById(
-        "totalStock"
-    ).textContent =
-    totalStock;
+    }).join("");
 
 }
 
 
-/* =====================================
-   SEARCH PRODUCTS
-===================================== */
-
 function filterProducts(){
 
     const keyword =
-    document.getElementById(
-        "productSearch"
-    ).value
-    .toLowerCase()
-    .trim();
-
+        document
+        .getElementById("productSearch")
+        .value
+        .toLowerCase()
+        .trim();
 
     const filtered =
-    allProducts.filter(product =>
+        products.filter(product => {
 
-        String(product.name || "")
-            .toLowerCase()
-            .includes(keyword)
+            return (
 
-        ||
+                String(product.name || "")
+                .toLowerCase()
+                .includes(keyword)
 
-        String(product.category || "")
-            .toLowerCase()
-            .includes(keyword)
+                ||
 
-    );
+                String(product.category || "")
+                .toLowerCase()
+                .includes(keyword)
 
+            );
+
+        });
 
     renderProducts(filtered);
 
 }
 
 
-/* =====================================
+/* =========================================================
    ADD PRODUCT
-===================================== */
+========================================================= */
 
 function openAddModal(){
 
-    document.getElementById(
-        "addModal"
-    ).classList.add("active");
+    document
+    .getElementById("addModal")
+    .style.display = "flex";
 
 }
 
 
 function closeAddModal(){
 
-    document.getElementById(
-        "addModal"
-    ).classList.remove("active");
+    document
+    .getElementById("addModal")
+    .style.display = "none";
+
+    clearAddForm();
+
+}
+
+
+function clearAddForm(){
+
+    document
+    .getElementById("addName")
+    .value = "";
+
+    document
+    .getElementById("addDescription")
+    .value = "";
+
+    document
+    .getElementById("addPrice")
+    .value = "";
+
+    document
+    .getElementById("addCategory")
+    .value = "Kopi";
+
+    document
+    .getElementById("addStock")
+    .value = "0";
+
+    document
+    .getElementById("addImage")
+    .value = "";
+
+    document
+    .getElementById("addActive")
+    .value = "true";
 
 }
 
@@ -1205,56 +1711,64 @@ function closeAddModal(){
 async function addProduct(){
 
     const name =
-    document.getElementById(
-        "addName"
-    ).value.trim();
+        document
+        .getElementById("addName")
+        .value
+        .trim();
 
     const description =
-    document.getElementById(
-        "addDescription"
-    ).value.trim();
+        document
+        .getElementById("addDescription")
+        .value
+        .trim();
 
     const price =
-    Number(
-        document.getElementById(
-            "addPrice"
-        ).value
-    );
+        Number(
+            document
+            .getElementById("addPrice")
+            .value
+        );
 
     const category =
-    document.getElementById(
-        "addCategory"
-    ).value;
+        document
+        .getElementById("addCategory")
+        .value;
 
     const stock =
-    Number(
-        document.getElementById(
-            "addStock"
-        ).value
-    );
+        Number(
+            document
+            .getElementById("addStock")
+            .value
+        );
 
     const image_url =
-    document.getElementById(
-        "addImage"
-    ).value.trim();
+        document
+        .getElementById("addImage")
+        .value
+        .trim();
+
+    const is_active =
+        document
+        .getElementById("addActive")
+        .value === "true";
 
 
     if(!name){
 
-        showToast(
-            "Nama produk wajib diisi."
-        );
+        showToast("⚠️ Nama produk wajib diisi.");
 
         return;
+
     }
 
-    if(price <= 0){
+    if(price < 0 || stock < 0){
 
         showToast(
-            "Harga harus lebih dari 0."
+            "⚠️ Harga dan stok tidak boleh negatif."
         );
 
         return;
+
     }
 
 
@@ -1262,37 +1776,46 @@ async function addProduct(){
         error
     } =
     await supabaseClient
-        .from("products")
-        .insert({
+    .from("products")
+    .insert({
 
-            name,
-            description,
-            price,
-            category,
-            stock,
-            image_url: image_url || null,
-            is_active:true
+        name:name,
 
-        });
+        description:
+            description || null,
+
+        price:price,
+
+        category:category,
+
+        stock:stock,
+
+        image_url:
+            image_url || null,
+
+        is_active:is_active
+
+    });
 
 
     if(error){
 
+        console.error(error);
+
         showToast(
-            "Gagal menambah produk: "
-            + error.message
+            "❌ Gagal menambah produk: " +
+            error.message
         );
 
         return;
+
     }
 
 
     closeAddModal();
 
-    clearAddForm();
-
     showToast(
-        "Produk berhasil ditambahkan."
+        "✅ Produk berhasil ditambahkan."
     );
 
     await loadProducts();
@@ -1300,83 +1823,81 @@ async function addProduct(){
 }
 
 
-/* =====================================
+/* =========================================================
    EDIT PRODUCT
-===================================== */
+========================================================= */
 
 function openEditModal(id){
 
     const product =
-    allProducts.find(
-        item =>
-        Number(item.id) === Number(id)
-    );
-
+        products.find(
+            p => Number(p.id) === Number(id)
+        );
 
     if(!product){
 
         showToast(
-            "Produk tidak ditemukan."
+            "❌ Produk tidak ditemukan."
         );
 
         return;
+
     }
 
 
-    document.getElementById(
-        "editId"
-    ).value =
-    product.id;
+    document
+    .getElementById("editId")
+    .value = product.id;
+
+    document
+    .getElementById("editName")
+    .value = product.name || "";
+
+    document
+    .getElementById("editDescription")
+    .value =
+        product.description || "";
+
+    document
+    .getElementById("editPrice")
+    .value =
+        product.price || 0;
+
+    document
+    .getElementById("editCategory")
+    .value =
+        product.category || "Kopi";
+
+    document
+    .getElementById("editStock")
+    .value =
+        product.stock || 0;
+
+    document
+    .getElementById("editImage")
+    .value =
+        product.image_url || "";
+
+    document
+    .getElementById("editActive")
+    .value =
+        product.is_active
+        ? "true"
+        : "false";
 
 
-    document.getElementById(
-        "editName"
-    ).value =
-    product.name || "";
-
-
-    document.getElementById(
-        "editDescription"
-    ).value =
-    product.description || "";
-
-
-    document.getElementById(
-        "editPrice"
-    ).value =
-    product.price || 0;
-
-
-    document.getElementById(
-        "editCategory"
-    ).value =
-    product.category || "Kopi";
-
-
-    document.getElementById(
-        "editStock"
-    ).value =
-    product.stock || 0;
-
-
-    document.getElementById(
-        "editImage"
-    ).value =
-    product.image_url || "";
-
-
-    document.getElementById(
-        "editModal"
-    ).classList.add("active");
+    document
+    .getElementById("editModal")
+    .style.display = "flex";
 
 }
 
 
 function closeEditModal(){
 
-    document.getElementById(
-        "editModal"
-    ).classList.remove("active");
+    document
+    .getElementById("editModal")
+    .style.display = "none";
 
 }
 
@@ -1384,60 +1905,61 @@ function closeEditModal(){
 async function saveEditProduct(){
 
     const id =
-    Number(
-        document.getElementById(
-            "editId"
-        ).value
-    );
-
+        document
+        .getElementById("editId")
+        .value;
 
     const name =
-    document.getElementById(
-        "editName"
-    ).value.trim();
-
+        document
+        .getElementById("editName")
+        .value
+        .trim();
 
     const description =
-    document.getElementById(
-        "editDescription"
-    ).value.trim();
-
+        document
+        .getElementById("editDescription")
+        .value
+        .trim();
 
     const price =
-    Number(
-        document.getElementById(
-            "editPrice"
-        ).value
-    );
-
+        Number(
+            document
+            .getElementById("editPrice")
+            .value
+        );
 
     const category =
-    document.getElementById(
-        "editCategory"
-    ).value;
-
+        document
+        .getElementById("editCategory")
+        .value;
 
     const stock =
-    Number(
-        document.getElementById(
-            "editStock"
-        ).value
-    );
-
+        Number(
+            document
+            .getElementById("editStock")
+            .value
+        );
 
     const image_url =
-    document.getElementById(
-        "editImage"
-    ).value.trim();
+        document
+        .getElementById("editImage")
+        .value
+        .trim();
+
+    const is_active =
+        document
+        .getElementById("editActive")
+        .value === "true";
 
 
     if(!name){
 
         showToast(
-            "Nama produk wajib diisi."
+            "⚠️ Nama produk wajib diisi."
         );
 
         return;
+
     }
 
 
@@ -1445,39 +1967,47 @@ async function saveEditProduct(){
         error
     } =
     await supabaseClient
-        .from("products")
-        .update({
+    .from("products")
+    .update({
 
-            name,
-            description,
-            price,
-            category,
-            stock,
-            image_url:
-            image_url || null
+        name:name,
 
-        })
-        .eq(
-            "id",
-            id
-        );
+        description:
+            description || null,
+
+        price:price,
+
+        category:category,
+
+        stock:stock,
+
+        image_url:
+            image_url || null,
+
+        is_active:is_active
+
+    })
+    .eq("id",id);
 
 
     if(error){
 
+        console.error(error);
+
         showToast(
-            "Gagal mengubah produk: "
-            + error.message
+            "❌ Gagal mengubah produk: " +
+            error.message
         );
 
         return;
+
     }
 
 
     closeEditModal();
 
     showToast(
-        "Produk berhasil diperbarui."
+        "✅ Produk berhasil diubah."
     );
 
     await loadProducts();
@@ -1485,118 +2015,80 @@ async function saveEditProduct(){
 }
 
 
-/* =====================================
+/* =========================================================
    DELETE PRODUCT
-===================================== */
+========================================================= */
 
 async function deleteProduct(id){
 
     const product =
-    allProducts.find(
-        item =>
-        Number(item.id) === Number(id)
-    );
+        products.find(
+            p => Number(p.id) === Number(id)
+        );
 
-
-    if(!product)
+    if(!product){
         return;
+    }
 
 
     const yakin =
-    confirm(
-        "Hapus produk \"" +
-        product.name +
-        "\"?"
-    );
+        confirm(
+            `Hapus produk "${product.name}"?`
+        );
 
-
-    if(!yakin)
+    if(!yakin){
         return;
+    }
 
 
     const {
         error
     } =
     await supabaseClient
-        .from("products")
-        .delete()
-        .eq(
-            "id",
-            id
-        );
+    .from("products")
+    .delete()
+    .eq("id",id);
 
 
     if(error){
 
+        console.error(error);
+
         showToast(
-            "Gagal menghapus: "
-            + error.message
+            "❌ Gagal menghapus produk: " +
+            error.message
         );
 
         return;
+
     }
 
 
     showToast(
-        "Produk berhasil dihapus."
+        "✅ Produk berhasil dihapus."
     );
-
 
     await loadProducts();
 
 }
 
 
-/* =====================================
-   CLEAR ADD FORM
-===================================== */
-
-function clearAddForm(){
-
-    document.getElementById(
-        "addName"
-    ).value = "";
-
-    document.getElementById(
-        "addDescription"
-    ).value = "";
-
-    document.getElementById(
-        "addPrice"
-    ).value = "";
-
-    document.getElementById(
-        "addStock"
-    ).value = "";
-
-    document.getElementById(
-        "addImage"
-    ).value = "";
-
-}
-
-
-/* =====================================
-   LOAD ORDERS
-===================================== */
+/* =========================================================
+   ORDERS
+========================================================= */
 
 async function loadOrders(){
 
-    const loading =
-    document.getElementById(
-        "ordersLoading"
-    );
+    const list =
+        document.getElementById(
+            "ordersList"
+        );
 
-    const container =
-    document.getElementById(
-        "ordersContainer"
-    );
-
-
-    loading.style.display =
-    "block";
-
-    container.innerHTML = "";
+    list.innerHTML = `
+        <div class="empty">
+            ⏳ Memuat pesanan...
+        </div>
+    `;
 
 
     const {
@@ -1604,234 +2096,158 @@ async function loadOrders(){
         error
     } =
     await supabaseClient
-        .from("orders")
-        .select(
-            "id,user_id,customer_name,customer_phone,delivery_address,total_amount,status,notes,created_at"
+    .from("orders")
+    .select(`
+        id,
+        user_id,
+        customer_name,
+        customer_phone,
+        delivery_address,
+        total_amount,
+        status,
+        notes,
+        created_at,
+        order_items (
+            id,
+            product_id,
+            product_name,
+            quantity,
+            price,
+            subtotal
         )
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
+    `)
+    .order(
+        "created_at",
+        {ascending:false}
+    );
 
 
     if(error){
 
-        loading.style.display =
-        "none";
+        console.error(error);
 
-        showError(
-            "Gagal memuat pesanan: "
-            + error.message
-        );
+        list.innerHTML = `
+            <div class="empty">
+                ❌ Gagal memuat pesanan.<br><br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+
+        updateStats();
 
         return;
+
     }
 
 
-    allOrders =
-    data || [];
+    orders = data || [];
 
+    renderOrders();
 
-    loading.style.display =
-    "none";
-
-
-    document.getElementById(
-        "totalOrders"
-    ).textContent =
-    allOrders.length;
-
-
-    let sales = 0;
-
-
-    allOrders.forEach(order => {
-
-        if(
-            order.status !==
-            "Dibatalkan"
-        ){
-
-            sales +=
-            Number(
-                order.total_amount || 0
-            );
-
-        }
-
-    });
-
-
-    document.getElementById(
-        "totalSales"
-    ).textContent =
-    "Rp " +
-    sales.toLocaleString("id-ID");
-
-
-    await renderOrders(
-        allOrders
-    );
+    updateStats();
 
 }
 
 
-/* =====================================
-   RENDER ORDERS
-===================================== */
-
-async function renderOrders(orders){
+function renderOrders(list = orders){
 
     const container =
-    document.getElementById(
-        "ordersContainer"
-    );
+        document.getElementById(
+            "ordersList"
+        );
 
 
-    container.innerHTML = "";
-
-
-    if(!orders.length){
+    if(!list.length){
 
         container.innerHTML = `
             <div class="empty">
-                📭 Belum ada pesanan pelanggan.
+                📭 Belum ada pesanan.
             </div>
         `;
 
         return;
+
     }
 
 
-    for(const order of orders){
+    container.innerHTML =
+    list.map(order => {
 
-        const {
-            data:items,
-            error
-        } =
-        await supabaseClient
-            .from("order_items")
-            .select(
-                "id,product_id,product_name,quantity,price,subtotal"
-            )
-            .eq(
-                "order_id",
-                order.id
-            );
+        const items =
+            order.order_items || [];
 
 
-        if(error){
+        return `
 
-            console.error(
-                "Order item error:",
-                error
-            );
+        <div class="order-card">
 
-        }
-
-
-        const card =
-        document.createElement(
-            "div"
-        );
-
-        card.className =
-        "order-card";
-
-
-        const date =
-        order.created_at
-        ?
-        new Date(
-            order.created_at
-        ).toLocaleString(
-            "id-ID"
-        )
-        :
-        "-";
-
-
-        const status =
-        order.status ||
-        "Menunggu";
-
-
-        let itemsHTML = "";
-
-
-        (items || []).forEach(item => {
-
-            itemsHTML += `
-
-                <div class="order-item">
-
-                    <span>
-                        ${escapeHTML(
-                            item.product_name
-                        )}
-                        × ${Number(
-                            item.quantity || 0
-                        )}
-                    </span>
-
-                    <strong>
-                        Rp ${Number(
-                            item.subtotal || 0
-                        ).toLocaleString("id-ID")}
-                    </strong>
-
-                </div>
-
-            `;
-
-        });
-
-
-        card.innerHTML = `
-
-            <div class="order-head">
+            <div class="order-top">
 
                 <div>
 
-                    <div class="order-number">
+                    <div class="order-id">
                         Pesanan #${order.id}
                     </div>
 
-                    <small>
-                        ${escapeHTML(date)}
-                    </small>
+                    <div class="order-date">
+                        ${formatDate(order.created_at)}
+                    </div>
 
                 </div>
 
-                <span class="badge">
-                    ${escapeHTML(status)}
-                </span>
+
+                <select
+                    class="status"
+                    onchange="ubahStatus(${order.id}, this.value)">
+
+                    <option
+                        value="Menunggu"
+                        ${order.status === "Menunggu" ? "selected" : ""}>
+                        Menunggu
+                    </option>
+
+                    <option
+                        value="Diproses"
+                        ${order.status === "Diproses" ? "selected" : ""}>
+                        Diproses
+                    </option>
+
+                    <option
+                        value="Dikirim"
+                        ${order.status === "Dikirim" ? "selected" : ""}>
+                        Dikirim
+                    </option>
+
+                    <option
+                        value="Selesai"
+                        ${order.status === "Selesai" ? "selected" : ""}>
+                        Selesai
+                    </option>
+
+                    <option
+                        value="Dibatalkan"
+                        ${order.status === "Dibatalkan" ? "selected" : ""}>
+                        Dibatalkan
+                    </option>
+
+                </select>
 
             </div>
 
 
-            <div class="order-info">
+            <div class="customer">
 
-                👤
-                <strong>
-                    ${escapeHTML(
-                        order.customer_name
-                    )}
-                </strong>
+                👤 <b>
+                    ${escapeHTML(order.customer_name || "-")}
+                </b>
+
                 <br>
 
-                📱
-                ${escapeHTML(
-                    order.customer_phone
-                )}
+                📞 ${escapeHTML(order.customer_phone || "-")}
+
                 <br>
 
-                📍
-                ${escapeHTML(
-                    order.delivery_address
-                )}
+                📍 ${escapeHTML(order.delivery_address || "-")}
 
                 ${
                     order.notes
@@ -1844,190 +2260,141 @@ async function renderOrders(orders){
             </div>
 
 
-            <div class="order-items">
+            <div class="items">
 
                 ${
-                    itemsHTML ||
-                    `<div class="empty">
-                        Detail produk tidak ditemukan.
-                    </div>`
+                    items.length
+                    ?
+                    items.map(item => `
+
+                        <div class="item-row">
+
+                            <span>
+                                ${escapeHTML(item.product_name || "Produk")}
+                                × ${item.quantity}
+                            </span>
+
+                            <span>
+                                ${formatRupiah(item.subtotal)}
+                            </span>
+
+                        </div>
+
+                    `).join("")
+                    :
+                    `
+                    <div class="muted">
+                        Detail item tidak tersedia.
+                    </div>
+                    `
                 }
 
             </div>
 
 
-            <div class="order-total">
+            <div class="order-bottom">
 
-                <span>
-                    TOTAL
-                </span>
+                <div class="total">
+                    ${formatRupiah(order.total_amount)}
+                </div>
 
-                <strong>
-                    Rp ${Number(
-                        order.total_amount || 0
-                    ).toLocaleString("id-ID")}
-                </strong>
-
-            </div>
-
-
-            <div class="status-select">
-
-                <label>
-                    Status Pesanan
-                </label>
-
-                <select
-                    onchange="ubahStatus(
-                        ${order.id},
-                        this.value
-                    )">
-
-                    <option
-                        value="Menunggu"
-                        ${status === "Menunggu" ? "selected" : ""}>
-                        Menunggu
-                    </option>
-
-                    <option
-                        value="Diproses"
-                        ${status === "Diproses" ? "selected" : ""}>
-                        Diproses
-                    </option>
-
-                    <option
-                        value="Dikirim"
-                        ${status === "Dikirim" ? "selected" : ""}>
-                        Dikirim
-                    </option>
-
-                    <option
-                        value="Selesai"
-                        ${status === "Selesai" ? "selected" : ""}>
-                        Selesai
-                    </option>
-
-                    <option
-                        value="Dibatalkan"
-                        ${status === "Dibatalkan" ? "selected" : ""}>
-                        Dibatalkan
-                    </option>
-
-                </select>
+                <div>
+                    Status:
+                    <b>
+                        ${escapeHTML(order.status || "Menunggu")}
+                    </b>
+                </div>
 
             </div>
+
+        </div>
 
         `;
 
-
-        container.appendChild(
-            card
-        );
-
-    }
+    }).join("");
 
 }
 
 
-/* =====================================
-   SEARCH ORDERS
-===================================== */
-
-async function filterOrders(){
+function filterOrders(){
 
     const keyword =
-    document.getElementById(
-        "orderSearch"
-    ).value
-    .toLowerCase()
-    .trim();
+        document
+        .getElementById("orderSearch")
+        .value
+        .toLowerCase()
+        .trim();
 
 
     const filtered =
-    allOrders.filter(order =>
+        orders.filter(order => {
 
-        String(order.id || "")
-            .toLowerCase()
-            .includes(keyword)
+            return (
 
-        ||
+                String(order.id)
+                .toLowerCase()
+                .includes(keyword)
 
-        String(order.customer_name || "")
-            .toLowerCase()
-            .includes(keyword)
+                ||
 
-        ||
+                String(order.customer_name || "")
+                .toLowerCase()
+                .includes(keyword)
 
-        String(order.customer_phone || "")
-            .toLowerCase()
-            .includes(keyword)
+                ||
 
-    );
+                String(order.customer_phone || "")
+                .toLowerCase()
+                .includes(keyword)
+
+                ||
+
+                String(order.status || "")
+                .toLowerCase()
+                .includes(keyword)
+
+            );
+
+        });
 
 
-    await renderOrders(
-        filtered
-    );
+    renderOrders(filtered);
 
 }
 
 
-/* =====================================
-   UPDATE ORDER STATUS
-===================================== */
-
-async function ubahStatus(
-    orderId,
-    statusBaru
-){
+async function ubahStatus(id,status){
 
     const {
         error
     } =
     await supabaseClient
-        .from("orders")
-        .update({
-
-            status:
-            statusBaru
-
-        })
-        .eq(
-            "id",
-            orderId
-        );
+    .from("orders")
+    .update({
+        status:status
+    })
+    .eq("id",id);
 
 
     if(error){
 
+        console.error(error);
+
         showToast(
-            "Gagal mengubah status: "
-            + error.message
+            "❌ Gagal mengubah status: " +
+            error.message
         );
 
+        await loadOrders();
+
         return;
+
     }
 
 
     showToast(
-        "Status pesanan diperbarui."
+        "✅ Status pesanan diperbarui."
     );
-
-
-    const order =
-    allOrders.find(
-        item =>
-        Number(item.id) ===
-        Number(orderId)
-    );
-
-
-    if(order){
-
-        order.status =
-        statusBaru;
-
-    }
 
 
     await loadOrders();
@@ -2035,78 +2402,142 @@ async function ubahStatus(
 }
 
 
-/* =====================================
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+function updateStats(){
+
+    const totalProducts =
+        products.length;
+
+    const totalStock =
+        products.reduce(
+            (sum,p) =>
+                sum + Number(p.stock || 0),
+            0
+        );
+
+
+    const totalOrders =
+        orders.length;
+
+
+    const totalSales =
+        orders.reduce(
+            (sum,o) => {
+
+                if(
+                    String(o.status || "")
+                    .toLowerCase()
+                    === "dibatalkan"
+                ){
+                    return sum;
+                }
+
+                return sum +
+                    Number(
+                        o.total_amount || 0
+                    );
+
+            },
+            0
+        );
+
+
+    document
+    .getElementById("totalProducts")
+    .textContent =
+        totalProducts;
+
+
+    document
+    .getElementById("totalStock")
+    .textContent =
+        totalStock;
+
+
+    document
+    .getElementById("totalOrders")
+    .textContent =
+        totalOrders;
+
+
+    document
+    .getElementById("totalSales")
+    .textContent =
+        formatRupiah(totalSales);
+
+}
+
+
+/* =========================================================
    LOGOUT
-===================================== */
+========================================================= */
 
 async function logout(){
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient
+        .auth
+        .signOut();
 
-    window.location.href =
-    "index.html";
+    products = [];
+    orders = [];
+
+    showLogin();
+
+    document
+    .getElementById("loginPassword")
+    .value = "";
+
+    showToast(
+        "👋 Berhasil keluar."
+    );
 
 }
 
 
-/* =====================================
-   ERROR
-===================================== */
+/* =========================================================
+   HELPERS
+========================================================= */
 
-function showError(message){
+function formatRupiah(number){
 
-    document.getElementById(
-        "errorBox"
-    ).innerHTML = `
-
-        <div class="error">
-            ${escapeHTML(message)}
-        </div>
-
-    `;
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style:"currency",
+            currency:"IDR",
+            maximumFractionDigits:0
+        }
+    ).format(
+        Number(number || 0)
+    );
 
 }
 
 
-/* =====================================
-   TOAST
-===================================== */
+function formatDate(date){
 
-function showToast(message){
+    if(!date){
+        return "-";
+    }
 
-    const toast =
-    document.getElementById(
-        "toast"
-    );
-
-
-    toast.textContent =
-    message;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    setTimeout(() => {
-
-        toast.classList.remove(
-            "show"
+    return new Date(date)
+        .toLocaleString(
+            "id-ID",
+            {
+                dateStyle:"medium",
+                timeStyle:"short"
+            }
         );
 
-    },3000);
-
 }
 
 
-/* =====================================
-   SECURITY
-===================================== */
+function escapeHTML(value){
 
-function escapeHTML(text){
-
-    return String(text ?? "")
+    return String(value ?? "")
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
@@ -2116,14 +2547,82 @@ function escapeHTML(text){
 }
 
 
-/* =====================================
-   START
-===================================== */
+function showLoginError(message){
 
-checkAdmin();
+    const box =
+        document
+        .getElementById("loginError");
+
+    box.textContent =
+        "❌ " + message;
+
+    box.style.display = "block";
+
+}
+
+
+function hideLoginError(){
+
+    document
+    .getElementById("loginError")
+    .style.display = "none";
+
+}
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+========================================================= */
+
+document
+.getElementById("addModal")
+.addEventListener("click",function(e){
+
+    if(e.target === this){
+        closeAddModal();
+    }
+
+});
+
+
+document
+.getElementById("editModal")
+.addEventListener("click",function(e){
+
+    if(e.target === this){
+        closeEditModal();
+    }
+
+});
+
+
+/* =========================================================
+   START
+========================================================= */
+
+checkSession();
 
 </script>
 
 </body>
 </html>
 ```
+
